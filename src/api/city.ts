@@ -5,5 +5,5 @@ import { httpGet } from "@/utils/request";
  * mall.film-ticket.city.list
  */
 export function getCityList(){
-  return httpGet<API.ICityListResp>("getCityList") 
+  return httpGet<API.ICityListResp>("mall.film-ticket.city.list") 
 }
