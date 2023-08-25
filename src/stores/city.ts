@@ -16,8 +16,8 @@ export const useCityStore = defineStore("city", () => {
   const cities = ref([] as API.ICity[]);
   // 当前选择的城市对象
   const curCity = ref(null as API.ICity | null);
-  //热门城市
-  const hotCity = ref([] as API.ICity[]);
+  
+
 
   // 定义 getter 数据，通过 computed 方法
   const cityGroup = computed(() => {
@@ -42,6 +42,12 @@ export const useCityStore = defineStore("city", () => {
     });
     return result.sort((a, b) => (a.groupName > b.groupName ? 1 : -1));
   });
+   //热门城市
+   const hotCity = computed(()=>{
+    let result:API.ICity[]=[]
+    result= cities.value.filter((item)=>(item.isHot===1))
+    return result
+   })
   const indexList = computed(() =>
     cityGroup.value.map((item) => item.groupName)
   );
