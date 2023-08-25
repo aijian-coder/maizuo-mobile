@@ -8,6 +8,10 @@ const CityStore = useCityStore();
 function onClickLeft() {
   showDialog({ message: "请选择城市" });
 }
+function handeldown (city: any){
+console.log(city);
+
+}
 
 /* function handelget(){
   CityStore.getLIst()
@@ -21,12 +25,14 @@ const keyword = ref("");
 
 <template>
   <div class="page-city">
-    <van-nav-bar title="当前城市-深圳" left-arrow @click-left="onClickLeft">
-      <template #left>
-        <van-icon name="cross" size="20" />
-      </template>
-    </van-nav-bar>
-    <van-search v-model="keyword" placeholder="请输入搜索关键词" />
+    <div class="header">
+      <van-nav-bar title="当前城市-深圳" left-arrow @click-left="onClickLeft">
+        <template #left>
+          <van-icon name="cross" size="20" />
+        </template>
+      </van-nav-bar>
+      <van-search v-model="keyword" placeholder="请输入搜索关键词" />
+    </div>
     <!-- <van-button @click="handelget">点击获取城市</van-button> -->
     <div class="body">
       <div class="recommend-city">
@@ -60,11 +66,24 @@ const keyword = ref("");
         </div>
       </div>
     </div>
+    <van-index-bar :index-list="CityStore.indexList">
+      <template v-for="group in CityStore.cityGroup" :key="group.groupName">
+        <van-index-anchor :index="group.groupName" />
+        <van-cell
+          v-for="item in group.groupList"
+          :title="item.name"
+          :key="item.cityId"
+          @click="handeldown(item)"
+          style="cursor: pointer;"
+        />
+      </template>
+    </van-index-bar>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .page-city {
+ 
   height: 44px;
   display: flex;
   flex-direction: column;
@@ -76,8 +95,11 @@ const keyword = ref("");
     color: #191a1b;
   }
 }
+
+
 .body {
   background: #797d82;
+  flex: 1;
   .recommend-city {
     background-color: #fff;
     padding-left: 15px;
