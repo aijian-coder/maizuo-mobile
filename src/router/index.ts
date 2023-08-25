@@ -7,6 +7,11 @@ const router=createRouter({
             path:'/',
             name:"home",
             component: () => import("@/views/home/home.vue"),
+        },
+        {
+            path:'/city',
+            name:"city",
+            component: () => import("@/views/city/index.vue"),
         }
     ]
 });

@@ -1,3 +1,4 @@
+import 'vant/es/dialog/style';
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
