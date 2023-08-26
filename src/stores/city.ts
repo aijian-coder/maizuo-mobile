@@ -19,6 +19,7 @@ export const useCityStore = defineStore("city", () => {
   const cities = ref([] as API.ICity[]);
   // 当前选择的城市对象
   const curCity = ref(null as API.ICity | null);
+  //定义搜索框按下的数据
   const keyword = ref("");
 
   // 定义 getter 数据，通过 computed 方法
@@ -44,6 +45,7 @@ export const useCityStore = defineStore("city", () => {
     //   }
     // });
     // return result.sort((a, b) => (a.groupName > b.groupName ? 1 : -1));
+    //此处把扁平数据变树形数据方法抽出
     return SetCityGroup(cities.value);
   });
   //计算出热门城市
@@ -56,8 +58,6 @@ export const useCityStore = defineStore("city", () => {
   const indexList = computed(() =>
     cityGroup.value.map((item) => item.groupName)
   );
-  
-
 
   // 定义 action 数据，通过 普通函数 即可
   async function getLIst() {
@@ -74,13 +74,15 @@ export const useCityStore = defineStore("city", () => {
     // 将 resp.cities 做一个本地存储
     store2.set("cities", list);
   }
+
+  //设置搜索的值
   function setkeyword(val: string) {
     keyword.value = val;
   }
-  //设置选中的城市
-  function setCurrentcity(city:API.ICity){
-    curCity.value=city
 
+  //设置选中的城市
+  function setCurrentcity(city: API.ICity) {
+    curCity.value = city;
   }
 
   return {
