@@ -5,8 +5,9 @@ import { useCityStore } from "@/stores/city";
 
 const keyword = ref("");
 const CityStore = useCityStore();
-const search = ref(<API.ICity[]>[]);
-const searchComtute = computed(() => {
+
+//使用计算属性搜索城市列表结果
+const searchCompute = computed(() => {
   return CityStore.cities.filter((city) => {
     if (!keyword.value) return;
     return (
@@ -15,23 +16,34 @@ const searchComtute = computed(() => {
   });
 });
 
+// const search = ref(<API.ICity[]>[]); //搜索城市列表结果
+// //使用函数计算搜索城市列表结果
+// function searchCitys() {
+//   search.value = CityStore.cities.filter((city) => {
+//     if (!keyword.value) return;
+//     return (
+//       city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
+//     );
+//   });
+// }
+
+//点击顶部左侧小叉叉
 function onClickLeft() {
   showDialog({ message: "请选择城市" });
-}
-function handeldown(city: any) {
-  //点击城市
-  console.log(city);
+  //TODO
 }
 
+//点击选择城市
+function handeldown(city: API.ICity) {
+  //TODO
+  console.log(city);
+  CityStore.setCurrentcity(city);
+}
+
+// 在输入框输入，触发此处
 function handelSearch() {
-  // 在输入框输入，触发此处
-  console.log(keyword.value);
-  search.value = CityStore.cities.filter((city) => {
-    if (!keyword.value) return;
-    return (
-      city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
-    );
-  });
+  // console.log(keyword.value);
+  // searchCitys()
 }
 
 onMounted(() => {
@@ -49,14 +61,25 @@ onMounted(() => {
       </van-nav-bar>
       <van-search
         v-model="keyword"
-        placeholder="请输入搜索关键词"
+        placeholder="输入城市名或者拼音"
         clearable
         maxlength="10"
         @update:model-value="handelSearch()"
       >
       </van-search>
     </div>
-    <div class="body">
+    <div class="body" v-show="searchCompute.length">
+      <van-index-bar :index-list="[]">
+        <van-cell
+          v-for="item in searchCompute"
+          :title="item.name"
+          :key="item.cityId"
+          @click="handeldown(item)"
+          style="cursor: pointer"
+        />
+      </van-index-bar>
+    </div>
+    <div class="body" v-show="!searchCompute.length">
       <div class="recommend-city">
         <div class="gprs-city">
           <div class="city-index-title">GPS定位你所在城市</div>
@@ -74,7 +97,6 @@ onMounted(() => {
         </div>
         <div class="hot-city">
           <div class="city-index-title">热门城市</div>
-
           <template v-for="item in CityStore.hotCity" :key="item.cityId">
             <van-space :size="20">
               <van-tag
@@ -159,6 +181,7 @@ onMounted(() => {
   margin: 5px 7.5px;
   font-size: 16px;
   color: #191a1b;
+  cursor: pointer;
 }
 .city-item-detail {
   height: 45px;
