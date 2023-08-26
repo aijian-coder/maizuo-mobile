@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 import { showDialog } from "vant";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useCityStore } from "@/stores/city";
 
 const keyword = ref("");
 const CityStore = useCityStore();
 const search = ref(<API.ICity[]>[]);
-// let search = computed(() => {
-//   return CityStore.cities.filter((city) => {
-//     if (!keyword.value) return;
-//     return (
-//       city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
-//     );
-//   });
-// });
+const searchComtute = computed(() => {
+  return CityStore.cities.filter((city) => {
+    if (!keyword.value) return;
+    return (
+      city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
+    );
+  });
+});
 
 function onClickLeft() {
   showDialog({ message: "请选择城市" });
@@ -133,7 +133,7 @@ onMounted(() => {
   padding-top: 90px;
   box-sizing: border-box;
   position: relative;
-  overflow-y: auto;
+  overflow-y: hidden;
   .recommend-city {
     background-color: #fff;
     padding-left: 15px;
