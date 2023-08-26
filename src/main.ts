@@ -1,4 +1,6 @@
 import 'vant/es/dialog/style';
+import '@vant/touch-emulator';
+
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";

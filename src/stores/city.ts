@@ -1,4 +1,6 @@
+import store2 from "store2";
 import { defineStore } from "pinia";
+
 import { ref, computed } from "vue";
 import { getCityList } from "@/api/city";
 
@@ -16,10 +18,10 @@ export const useCityStore = defineStore("city", () => {
   const cities = ref([] as API.ICity[]);
   // 当前选择的城市对象
   const curCity = ref(null as API.ICity | null);
-  
-
+  const keyword = ref("");
 
   // 定义 getter 数据，通过 computed 方法
+  // 计算出城市分组，按拼音首字母
   const cityGroup = computed(() => {
     const result: { groupName: string; groupList: API.ICity[] }[] = [];
     cities.value.forEach((city) => {
@@ -42,29 +44,47 @@ export const useCityStore = defineStore("city", () => {
     });
     return result.sort((a, b) => (a.groupName > b.groupName ? 1 : -1));
   });
-   //热门城市
-   const hotCity = computed(()=>{
-    let result:API.ICity[]=[]
-    result= cities.value.filter((item)=>(item.isHot===1))
-    return result
-   })
+  //计算出热门城市
+  const hotCity = computed(() => {
+    let result: API.ICity[] = [];
+    result = cities.value.filter((item) => item.isHot === 1);
+    return result;
+  });
+  //计算出表头
   const indexList = computed(() =>
     cityGroup.value.map((item) => item.groupName)
   );
+  //计算出搜索出来的值
+  
 
   // 定义 action 数据，通过 普通函数 即可
   async function getLIst() {
+    const city: API.ICity[] | null = store2.get("cities");
+    if (city) {
+      //本地有值，直接拿
+      cities.value = city;
+      return;
+    }
+    //不存在，就去调接口
     const res = await getCityList();
     const list = res.cities;
     cities.value = list;
+    // 将 resp.cities 做一个本地存储
+    store2.set("cities", list);
+  }
+  function setkeyword(val: string) {
+   
+    keyword.value = val;
   }
 
   return {
     getLIst,
+    setkeyword,
     hotCity,
     curCity,
     cities,
     cityGroup,
-    indexList
+    indexList,
+    keyword,
   };
 });

@@ -3,7 +3,17 @@ import { showDialog } from "vant";
 import { ref, onMounted } from "vue";
 import { useCityStore } from "@/stores/city";
 
+const keyword = ref("");
 const CityStore = useCityStore();
+const search = ref(<API.ICity[]>[]);
+// let search = computed(() => {
+//   return CityStore.cities.filter((city) => {
+//     if (!keyword.value) return;
+//     return (
+//       city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
+//     );
+//   });
+// });
 
 function onClickLeft() {
   showDialog({ message: "请选择城市" });
@@ -13,15 +23,20 @@ function handeldown(city: any) {
   console.log(city);
 }
 
-
-/* function handelget(){
-  CityStore.getLIst()
-} */
+function handelSearch() {
+  // 在输入框输入，触发此处
+  console.log(keyword.value);
+  search.value = CityStore.cities.filter((city) => {
+    if (!keyword.value) return;
+    return (
+      city.pinyin.includes(keyword.value) || city.name.includes(keyword.value)
+    );
+  });
+}
 
 onMounted(() => {
   CityStore.getLIst();
 });
-const keyword = ref("");
 </script>
 
 <template>
@@ -32,11 +47,15 @@ const keyword = ref("");
           <van-icon name="cross" size="20" />
         </template>
       </van-nav-bar>
-      <van-search v-model="keyword" placeholder="请输入搜索关键词"  clearable clear-icon="clear" maxlength="10"/>
-     
-    
+      <van-search
+        v-model="keyword"
+        placeholder="请输入搜索关键词"
+        clearable
+        maxlength="10"
+        @update:model-value="handelSearch()"
+      >
+      </van-search>
     </div>
-    <!-- <van-button @click="handelget">点击获取城市</van-button> -->
     <div class="body">
       <div class="recommend-city">
         <div class="gprs-city">
@@ -63,13 +82,14 @@ const keyword = ref("");
                 size="large"
                 color="#f4f4f4"
                 text-color="#000"
+                @click="handeldown(item)"
                 >{{ item.name }}</van-tag
               ></van-space
             >
           </template>
         </div>
       </div>
-      <van-index-bar :index-list="CityStore.indexList">
+      <van-index-bar :index-list="CityStore.indexList" :sticky-offset-top="90">
         <template v-for="group in CityStore.cityGroup" :key="group.groupName">
           <van-index-anchor :index="group.groupName" />
           <van-cell
@@ -87,9 +107,6 @@ const keyword = ref("");
 
 <style lang="scss" scoped>
 .page-city {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   ::v-deep(.van-nav-bar__content) {
     height: 44px;
     color: #191a1b;
@@ -100,17 +117,23 @@ const keyword = ref("");
 }
 .header {
   height: 90px;
-  background: #000;
-  position: sticky;
+  // background: #000;
   width: 100%;
-  z-index: 1;
+  position: fixed;
   top: 0;
+  left: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 300;
 }
 
 .body {
   background: #797d82;
+  padding-top: 90px;
+  box-sizing: border-box;
+  position: relative;
   overflow-y: auto;
-  flex: 1;
   .recommend-city {
     background-color: #fff;
     padding-left: 15px;
@@ -133,7 +156,7 @@ const keyword = ref("");
   background-color: #f4f4f4;
   justify-content: center;
   line-height: 30px;
-  margin: 0 7.5px;
+  margin: 5px 7.5px;
   font-size: 16px;
   color: #191a1b;
 }
@@ -150,8 +173,5 @@ const keyword = ref("");
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
-}
-.van-row {
-  height: 85px;
 }
 </style>
