@@ -25,7 +25,7 @@ const active = ref(0);
   display: flex;
   flex-direction: column;
   &__body {
-    background: #c87171;
+    // background: #c87171;
     flex: 1;
   }
   &__footer {

@@ -32,6 +32,12 @@ const router = createRouter({
           component: () => import("@/views/cinema/cinema-list/index.vue"),
         },
         {
+          //测试用页面
+          path: "test",
+          name: "test",
+          component: () => import("@/views/film/film-list/test.vue"),
+        },
+        {
           //咨询列表 页面
           path: "posts",
           name: "posts",
