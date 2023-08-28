@@ -10,7 +10,11 @@ const cityStre = useCityStore();
 const router = useRouter();
 
 //设置 顶部NavBar显示
-const showHeader = ref(true);
+const showHeader = ref(false);
+
+function handleScroll(event: Event) {
+  console.log(event);
+}
 
 //顶部左侧点击
 function onClickLeft() {
@@ -23,17 +27,24 @@ function onClickLeft() {
 
 <template>
   <div class="page-film-list">
-  <van-nav-bar title="电影" v-show="showHeader" left-arrow @click-left="onClickLeft">
-    <template #left>
-      <span>{{ cityStre.curCity?.name }}&nbsp;</span>
-      <van-icon name="arrow-down" :size="12" />
-    </template>
-  </van-nav-bar>
+    <van-nav-bar
+      title="电影"
+      v-show="showHeader"
+      left-arrow
+      @click-left="onClickLeft"
+    >
+      <template #left>
+        <span>{{ cityStre.curCity?.name }}&nbsp;</span>
+        <van-icon name="arrow-down" :size="12" />
+      </template>
+    </van-nav-bar>
 
-  <van-tabs>
-    <van-tab title="正在热映"> <FilmList :type="1" /></van-tab>
-    <van-tab title="即将上映"> <FilmList :type="2" /></van-tab>
-  </van-tabs>
+    <van-tabs>
+      <van-tab title="正在热映">
+        <FilmList :type="1" @Myscoll="handleScroll"
+      /></van-tab>
+      <van-tab title="即将上映"> <FilmList :type="2" /></van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -63,4 +74,3 @@ function onClickLeft() {
   }
 }
 </style>
-

@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 
 defineOptions({
   name: "home",
 });
-const active = ref(0);
+
 </script>
 <template>
   <div class="page-home">
     <div class="page-home__body"><RouterView /></div>
     <div class="page-home__footer">
-      <van-tabbar v-model="active" route >
+      <van-tabbar  route  :fixed="false">
         <van-tabbar-item  replace to="/films" icon="video-o">电影</van-tabbar-item>
         <van-tabbar-item  replace to="/cinemas"  icon="search">影院</van-tabbar-item>
         <van-tabbar-item  replace to="/posts"  icon="notes-o">咨询</van-tabbar-item>
@@ -26,6 +25,7 @@ const active = ref(0);
   flex-direction: column;
   &__body {
     // background: #c87171;
+    overflow-y: auto;
     flex: 1;
   }
   &__footer {

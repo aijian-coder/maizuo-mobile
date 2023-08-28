@@ -11,7 +11,7 @@
 import { getFilmList } from "@/api/film";
 import { useCityStore } from "@/stores/city";
 import { reactive } from "vue";
-import FilmItem from "@/components/film-item/index.vue"
+import FilmItem from "@/components/film-item/index.vue";
 
 const cityStore = useCityStore();
 
@@ -19,6 +19,10 @@ const cityStore = useCityStore();
 const props = defineProps<{
   type: 1 | 2;
 }>();
+
+//定义一个自定义事件 触发给父级
+const emits = defineEmits(["scroll"]);
+
 /**
  * 请求接口的参数
 cityId: 440300
@@ -48,9 +52,11 @@ const state = reactive({
   error: false,
 });
 
-function handleScroll(val: any) {
-  console.log(val);
-}
+// 滚动事件处理
+const handleScroll = (event: Event) => {
+  // 触发一个 scroll 的自定义事件，通知父组件
+  emits("scroll", event);
+};
 function onLoad() {
   getFilmList(params)
     .then((res) => {
@@ -87,19 +93,16 @@ function onLoad() {
       :offset="10"
       @load="onLoad"
     >
-      <template  v-for="item in state.list"
-        :key="item.filmId">
-        <FilmItem :film="item"/>
+      <template v-for="item in state.list" :key="item.filmId">
+        <FilmItem :film="item" />
       </template>
-      
-
     </van-list>
   </div>
 </template>
 <style lang="scss" scoped>
 .film-list {
   flex: 1;
-  padding:0 10px;
-  overflow-y: auto;
+  padding: 0 10px;
+  overflow-y: hidden;
 }
 </style>
