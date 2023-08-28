@@ -17,8 +17,8 @@ export const useCityStore = defineStore("city", () => {
    */
   // 定义 state 数据，通过 ref 方法
   const cities = ref([] as API.ICity[]);
-  // 当前选择的城市对象
-  const curCity = ref(null as API.ICity | null);
+  // 当前选择的城市对象  
+  const curCity =ref(null as API.ICity | null)
   //定义搜索框按下的数据
   const keyword = ref("");
 
@@ -83,6 +83,7 @@ export const useCityStore = defineStore("city", () => {
   //设置选中的城市
   function setCurrentcity(city: API.ICity) {
     curCity.value = city;
+   
   }
 
   return {
