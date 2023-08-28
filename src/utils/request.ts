@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
+import { showDialog } from "vant";
 
 /* 
 1.创建axios实例对象
@@ -40,7 +41,8 @@ request.interceptors.response.use(
     // 做业务状态码的判断
     if (resp.status !== 0) {
       // 弹窗提示
-      alert(resp.msg);
+      // alert(resp.msg);
+      showDialog({ message: resp.msg });
       return Promise.reject(resp);
     } else {
       return resp.data;

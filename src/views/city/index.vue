@@ -1,3 +1,8 @@
+<script lang="ts">
+export default {
+  name: "city",
+};
+</script>
 <script lang="ts" setup>
 import { showDialog } from "vant";
 import { ref, onMounted, computed } from "vue";

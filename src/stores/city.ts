@@ -61,9 +61,14 @@ export const useCityStore = defineStore(
       cityGroup.value.map((item) => item.groupName)
     );
 
+    //计算当前城市id
+    const curCityId=computed(()=>{
+      return curCity.value?.cityId
+    })
+
     // 定义 action 数据，通过 普通函数 即可
     async function getLIst() {
-      const city: API.ICity[] | null = store2.get("cities");
+      const city: API.ICity[] | null = store2.get("city").cities;
       if (city) {
         //本地有值，直接拿
         cities.value = city;
@@ -74,7 +79,7 @@ export const useCityStore = defineStore(
       const list = res.cities;
       cities.value = list;
       // 将 resp.cities 做一个本地存储
-      store2.set("cities", list);
+      // store2.set("cities", list);
     }
 
     //设置搜索的值
@@ -97,7 +102,10 @@ export const useCityStore = defineStore(
       cityGroup,
       indexList,
       keyword,
+      curCityId
     };
   },
-  
+  {
+    persist: true
+  }
 );
