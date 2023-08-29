@@ -11,9 +11,11 @@ const router = useRouter();
 
 //设置 顶部NavBar显示
 const showHeader = ref(false);
-
+// Element.scrollTop 属性可以获取或设置一个元素的内容垂直滚动的像素数。顶部卷去的像素
 function handleScroll(event: Event) {
-  console.log(event);
+  // console.log((event.target as HTMLElement).scrollTop);
+  const scrollTop = (event.target as HTMLElement).scrollTop;
+  showHeader.value = scrollTop >= 50;
 }
 
 //顶部左侧点击
@@ -41,9 +43,11 @@ function onClickLeft() {
 
     <van-tabs>
       <van-tab title="正在热映">
-        <FilmList :type="1" @Myscoll="handleScroll"
+        <FilmList :type="1" @myscroll="handleScroll"
       /></van-tab>
-      <van-tab title="即将上映"> <FilmList :type="2" /></van-tab>
+      <van-tab title="即将上映">
+        <FilmList :type="2" @myscroll="handleScroll"
+      /></van-tab>
     </van-tabs>
   </div>
 </template>

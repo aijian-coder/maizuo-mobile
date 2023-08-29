@@ -50,4 +50,9 @@ declare namespace API {
     films: IFilm[];
     total: number;
   }
+
+  //电影详情接口返回值类型
+  export interface IFilmDetailResp {
+    film: IFilm;
+  }
 }

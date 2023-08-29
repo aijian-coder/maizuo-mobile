@@ -7,9 +7,11 @@ defineOptions({
 </script>
 <template>
   <div class="page-home">
-    <div class="page-home__body"><RouterView /></div>
+    <div class="page-home__body">
+      <RouterView />
+    </div>
     <div class="page-home__footer">
-      <van-tabbar  route  :fixed="false">
+      <van-tabbar inactive-color="#797d82" route  :fixed="false">
         <van-tabbar-item  replace to="/films" icon="video-o">电影</van-tabbar-item>
         <van-tabbar-item  replace to="/cinemas"  icon="search">影院</van-tabbar-item>
         <van-tabbar-item  replace to="/posts"  icon="notes-o">咨询</van-tabbar-item>

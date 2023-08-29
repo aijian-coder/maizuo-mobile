@@ -59,6 +59,12 @@ const router = createRouter({
       name: "city",
       component: () => import("@/views/city/index.vue"),
     },
+    {
+      //电影详情
+      path: "/films/:filmId",
+      name: "films-detail",
+      component: () => import("@/views/film/film-detail/index.vue"),
+    },
   ],
 });
 

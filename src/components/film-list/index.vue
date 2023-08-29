@@ -21,7 +21,7 @@ const props = defineProps<{
 }>();
 
 //定义一个自定义事件 触发给父级
-const emits = defineEmits(["scroll"]);
+const emits = defineEmits(["myscroll"]);
 
 /**
  * 请求接口的参数
@@ -34,7 +34,7 @@ type: 1
 const params = reactive({
   cityId: cityStore.curCityId,
   pageNum: 1,
-  pageSize: 30,
+  pageSize: 10,
   type: props.type,
 });
 
@@ -55,8 +55,10 @@ const state = reactive({
 // 滚动事件处理
 const handleScroll = (event: Event) => {
   // 触发一个 scroll 的自定义事件，通知父组件
-  emits("scroll", event);
+  // console.log(event);
+  emits("myscroll", event);
 };
+//列表滚动条的加载事件
 function onLoad() {
   getFilmList(params)
     .then((res) => {
@@ -81,6 +83,11 @@ function onLoad() {
       state.finished = state.list.length >= state.total;
     });
 }
+//点击事件处理函数
+const handelclick = (film: API.IFilm) => {
+  console.log("点击电影，准备购票", film);
+  //TODO
+};
 </script>
 <template>
   <div class="film-list" @scroll.passive="handleScroll">
@@ -94,7 +101,7 @@ function onLoad() {
       @load="onLoad"
     >
       <template v-for="item in state.list" :key="item.filmId">
-        <FilmItem :film="item" />
+        <FilmItem :film="item" @myclick="handelclick(item)" />
       </template>
     </van-list>
   </div>
@@ -103,6 +110,6 @@ function onLoad() {
 .film-list {
   flex: 1;
   padding: 0 10px;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 </style>

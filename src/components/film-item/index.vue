@@ -3,6 +3,7 @@ import { computed } from "vue";
 defineOptions({
   name: "FilmDetail",
 });
+const emits = defineEmits(["myclick"]);
 const props = defineProps<{
   film: API.IFilm;
 }>();
@@ -10,13 +11,17 @@ const actorsText = computed(() =>
   // 基于 props.film.actors => ['张三', '里斯', '王五'].join(' ')
   props.film.actors.map((item) => item.name).join(" ")
 );
+function handelClick(event: Event) {
+  // console.log("ok");
+  emits("myclick", event);
+}
 </script>
 <template>
-  <div class="nowPlayingFilm-item">
+  <div class="nowPlayingFilm-item" @click="handelClick">
     <div
       class="nowPlayingFilm-img"
       alt="film"
-      style="width: 66px; height: 94px;/*  background: rgb(249, 249, 249)*/" 
+      style="width: 66px; height: 94px; /*  background: rgb(249, 249, 249)*/"
     >
       <img :src="film.poster" class="target-img" />
     </div>
@@ -53,7 +58,6 @@ const actorsText = computed(() =>
   position: relative;
   cursor: pointer;
   border-bottom: 1px solid #ededed;
-
 }
 .nowPlayingFilm-info {
   width: 100px;
