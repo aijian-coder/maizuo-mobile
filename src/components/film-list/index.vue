@@ -12,6 +12,7 @@ import { getFilmList } from "@/api/film";
 import { useCityStore } from "@/stores/city";
 import { reactive } from "vue";
 import FilmItem from "@/components/film-item/index.vue";
+import { useRouter } from "vue-router";
 
 const cityStore = useCityStore();
 
@@ -22,6 +23,9 @@ const props = defineProps<{
 
 //定义一个自定义事件 触发给父级
 const emits = defineEmits(["myscroll"]);
+
+//创建路由器
+const router = useRouter();
 
 /**
  * 请求接口的参数
@@ -85,8 +89,10 @@ function onLoad() {
 }
 //点击事件处理函数
 const handelclick = (film: API.IFilm) => {
-  console.log("点击电影，准备购票", film);
-  //TODO
+  // console.log("点击电影，准备购票", film);
+  //TODO  路由跳转
+  const params={filmId:film.filmId }
+  router.push({ name: "films-detail", params });
 };
 </script>
 <template>

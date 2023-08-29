@@ -22,6 +22,8 @@ declare module 'vue' {
     VanCell: typeof import('vant/es')['Cell']
     VanCol: typeof import('vant/es')['Col']
     VanDivider: typeof import('vant/es')['Divider']
+    VanDropdownItem: typeof import('vant/es')['DropdownItem']
+    VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
     VanIcon: typeof import('vant/es')['Icon']
     VanIndexAnchor: typeof import('vant/es')['IndexAnchor']
     VanIndexBar: typeof import('vant/es')['IndexBar']

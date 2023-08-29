@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useFilmStore } from "@/stores/film";
 import { computed, ref } from "vue";
 import { onMounted } from "vue";
@@ -12,19 +12,31 @@ const actorsText = computed(() =>
 //设置 顶部NavBar显示
 const showHeader = ref(false);
 
-const router = useRouter();
-console.log(router);
+// const router = useRouter();
+const route = useRoute();
+// console.log(router);
 
 function handleClick() {
-  console.log("ok");
+  console.log("ok", route.fullPath.split("/").slice(-1)[0]);
 }
 
 function handelscroll(e: Event) {
   const scrollTop = (e.target as HTMLElement).scrollTop;
   showHeader.value = scrollTop >= 50;
 }
+// onBeforeRouteUpdate(()=>{
+
+//   filmStore.getFilm({ filmId:  (route.fullPath.split("/").slice(-1)[0] )});
+// })
+// router.beforeEach((to, from) => {
+//   // ...
+//   // 返回 false 以取消导航
+//   // console.log(to, from);
+  
+//   // return false
+// })
 onMounted(() => {
-  filmStore.getFilm({ filmId: 6484 });
+  filmStore.getFilm({ filmId: route.fullPath.split("/").slice(-1)[0] });
 });
 </script>
 <template>
@@ -77,7 +89,6 @@ onMounted(() => {
 
   .head {
     height: 44px;
-  
   }
   .body {
     flex: 1;

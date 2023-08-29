@@ -35,9 +35,9 @@ function onClickLeft() {
       left-arrow
       @click-left="onClickLeft"
     >
-      <template #left>
+      <template #left >
         <span>{{ cityStre.curCity?.name }}&nbsp;</span>
-        <van-icon name="arrow-down" :size="12" />
+        <van-icon name="arrow-down" :size="12" color="#000"/>
       </template>
     </van-nav-bar>
 
