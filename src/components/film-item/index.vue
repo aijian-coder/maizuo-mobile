@@ -30,7 +30,7 @@ function handelClick(event: Event) {
         <span class="name" style="padding-right: 5px">{{ film.name }}</span>
         <van-tag color="#d2d6dc">2D</van-tag>
       </div>
-      <div class="info_item nowPlayingFilm-grade" style="visibility: visible">
+      <div class="info_item nowPlayingFilm-grade" v-visible="film.grade">
         <span class="label">观众评分 </span
         ><span class="grade" style="color: #ff5f16">{{ film.grade }}</span>
       </div>
