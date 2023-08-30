@@ -55,4 +55,39 @@ declare namespace API {
   export interface IFilmDetailResp {
     film: IFilm;
   }
+
+  //影院列表返回值类型
+  export interface District {
+    districtId: number;
+    name: string;
+  }
+
+  export interface Cinema {
+    cinemaId: number;
+    name: string;
+    address: string;
+    longitude: number;
+    latitude: number;
+    gpsAddress: string;
+    cityId: number;
+    cityName: string;
+    districtId: number;
+    districtName: string;
+    district: District;
+    phone: string;
+    telephones: string[];
+    logoUrl: string;
+    businessTime: string;
+    notice: string;
+    isVisited: number;
+    lowPrice: number;
+    distance: number;
+    eTicketFlag: number;
+    seatFlag: number;
+    ticketTypes?: any;
+  }
+
+  export interface ICinemaResp {
+    cinemas: Cinema[];
+  }
 }

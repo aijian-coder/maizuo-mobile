@@ -18,6 +18,12 @@ export const useFilmStore = defineStore("film", {
         this.film = resp.film;
       });
     },
+    /**
+     * 清除film详情
+     */
+    clearFilm() {
+      this.film = null;
+    },
   },
   persist: {
     paths: ["film"],

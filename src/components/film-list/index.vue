@@ -10,11 +10,13 @@
 <script lang="ts" setup>
 import { getFilmList } from "@/api/film";
 import { useCityStore } from "@/stores/city";
+import { useFilmStore } from "@/stores/film";
 import { reactive } from "vue";
 import FilmItem from "@/components/film-item/index.vue";
 import { useRouter } from "vue-router";
 
 const cityStore = useCityStore();
+const filmStore = useFilmStore();
 
 //定义一个调接口要用的prop
 const props = defineProps<{
@@ -91,7 +93,10 @@ function onLoad() {
 const handelclick = (film: API.IFilm) => {
   // console.log("点击电影，准备购票", film);
   //TODO  路由跳转
-  const params={filmId:film.filmId }
+  const params = { filmId: film.filmId };
+  // filmStore.getFilm()
+  filmStore.getFilm({ filmId: film.filmId });
+
   router.push({ name: "films-detail", params });
 };
 </script>

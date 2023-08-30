@@ -2,7 +2,7 @@
 import { useRoute } from "vue-router";
 import { useFilmStore } from "@/stores/film";
 import { computed, ref } from "vue";
-import { onMounted } from "vue";
+import { onUnmounted } from "vue";
 
 const filmStore = useFilmStore();
 const actorsText = computed(() =>
@@ -32,11 +32,17 @@ function handelscroll(e: Event) {
 //   // ...
 //   // 返回 false 以取消导航
 //   // console.log(to, from);
-  
+
 //   // return false
 // })
-onMounted(() => {
-  filmStore.getFilm({ filmId: route.fullPath.split("/").slice(-1)[0] });
+// onMounted(() => {
+//   console.log("onMounted", filmStore.film);
+
+//   filmStore.getFilm({ filmId: route.fullPath.split("/").slice(-1)[0] });
+// });
+onUnmounted(() => {
+  // console.log("onUnmounted", filmStore.film);
+  filmStore.clearFilm();
 });
 </script>
 <template>
@@ -107,7 +113,7 @@ onMounted(() => {
 // 海报
 .poster {
   width: 100%;
-  height: 210px;
+  height: 300px;
   background: rgb(169, 55, 55);
   opacity: 1;
   overflow-y: hidden;

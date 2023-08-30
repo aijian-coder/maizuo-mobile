@@ -7,6 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CinemaItem: typeof import('./src/components/cinema-item/index.vue')['default']
+    CinemaList: typeof import('./src/components/cinema-list/index.vue')['default']
+    copy: typeof import('./src/components/film-list copy/index.vue')['default']
     FilmItem: typeof import('./src/components/film-item/index.vue')['default']
     FilmList: typeof import('./src/components/film-list/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -37,6 +40,7 @@ declare module 'vue' {
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     VanTag: typeof import('vant/es')['Tag']
+    VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

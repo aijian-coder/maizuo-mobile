@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import FilmList from "@/components/film-list/index.vue";
 import { useCityStore } from "@/stores/city";
 import { useRouter } from "vue-router";
+import CinemaList from "@/components/cinema-list/index.vue";
 
 //拿到仓库
 const cityStre = useCityStore();
 //拿到路由器
 const router = useRouter();
-
 
 //顶部左侧点击
 function onClickLeft() {
@@ -16,63 +15,44 @@ function onClickLeft() {
     name: "city",
   });
 }
+function handelscroll(e:Event){
+  // ,(e.target as HTMLElement).scrollTop
+  // console.log("gun",(e.target as HTMLElement).scrollTop);
+}
 </script>
 
 <template>
-  <div class="page-film-list">
-    <van-nav-bar
-      title="影院"
-      left-arrow
-      right-arrow
-      @click-left="onClickLeft"
-    >
-
+  <div class="page-cinema-list">
+    <van-nav-bar title="影院" left-arrow right-arrow @click-left="onClickLeft">
       <template #left>
         <span>{{ cityStre.curCity?.name }}&nbsp;</span>
-        <van-icon name="arrow-down" :size="12"  color="#000"/>
+        <van-icon name="arrow-down" :size="12" color="#000" />
       </template>
       <template #right>
-    <van-icon name="search" size="18" color="#000"/>
-  </template>
+        <van-icon name="search" size="18" color="#000" />
+      </template>
     </van-nav-bar>
-<van-dropdown-menu>
-  <van-dropdown-item  />
-  <van-dropdown-item />
-</van-dropdown-menu>
-    <van-tabs>
-      <van-tab title="正在热映">
-        <FilmList :type="1"
-      /></van-tab>
-      <van-tab title="即将上映">
-        <FilmList :type="2"
-      /></van-tab>
-    </van-tabs>
+    <van-dropdown-menu>
+      <van-dropdown-item title="全城" />
+      <van-dropdown-item title="APP订票" />
+      <van-dropdown-item title="最近去过" />
+    </van-dropdown-menu>
+    <div class="body" @scroll="handelscroll">
+      <CinemaList :type="1" />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.page-film-list {
+.page-cinema-list {
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
-  .van-tabs {
-    display: flex;
-    flex-direction: column;
+  .body {
     flex: 1;
-    overflow: hidden;
-  }
-
-  .van-tab__panel {
-    display: flex;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  ::v-deep(.van-tabs__content) {
-    flex: 1;
-    overflow: hidden;
+    background: #b4b2b2;
+    overflow-y: auto;
   }
 }
 </style>
