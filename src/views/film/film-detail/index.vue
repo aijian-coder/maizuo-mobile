@@ -44,47 +44,53 @@ onUnmounted(() => {
   // console.log("onUnmounted", filmStore.film);
   filmStore.clearFilm();
 });
+
 </script>
 <template>
   <div class="film-detail">
     <div class="header" v-show="showHeader">
       <van-nav-bar :title="filmStore.film?.name" />
     </div>
-    <div class="body" @scroll="handelscroll">
-      <div class="poster">
-        <img :src="filmStore.film?.poster" class="target-img" />
-      </div>
-      <div class="detail">
-        <div class="info_item nowPlayingFilm-name">
-          <span class="name" style="padding-right: 5px">{{
-            filmStore.film?.name
-          }}</span>
-          <van-tag color="#d2d6dc">2D</van-tag>
+    <van-skeleton :loading="!filmStore.film">
+      <div class="body" @scroll="handelscroll">
+        <div class="poster">
+          <img :src="filmStore.film?.poster" class="target-img" />
         </div>
-        <div class="info_item nowPlayingFilm-grade" style="visibility: visible">
-          <span class="label">观众评分 </span
-          ><span class="grade" style="color: #ff5f16">{{
-            filmStore.film?.grade
-          }}</span>
-        </div>
-        <div class="info_item nowPlayingFilm-actors">
-          <span class="label actors">主演：{{ actorsText }}</span>
-        </div>
-        <div class="info_item nowPlayingFilm-detail">
-          <span class="label"
-            >{{ filmStore.film?.nation }} |
-            {{ filmStore.film?.runtime }}分钟</span
+        <div class="detail">
+          <div class="info_item nowPlayingFilm-name">
+            <span class="name" style="padding-right: 5px">{{
+              filmStore.film?.name
+            }}</span>
+            <van-tag color="#d2d6dc">2D</van-tag>
+          </div>
+          <div
+            class="info_item nowPlayingFilm-grade"
+            style="visibility: visible"
           >
+            <span class="label">观众评分 </span
+            ><span class="grade" style="color: #ff5f16">{{
+              filmStore.film?.grade
+            }}</span>
+          </div>
+          <div class="info_item nowPlayingFilm-actors">
+            <span class="label actors">主演：{{ actorsText }}</span>
+          </div>
+          <div class="info_item nowPlayingFilm-detail">
+            <span class="label"
+              >{{ filmStore.film?.nation }} |
+              {{ filmStore.film?.runtime }}分钟</span
+            >
+          </div>
         </div>
+        <div class="actor"></div>
+        <div class="photos"></div>
       </div>
-      <div class="actor"></div>
-      <div class="photos"></div>
-    </div>
-    <div class="foot">
-      <van-button type="primary" block @click="handleClick"
-        >选座购票</van-button
-      >
-    </div>
+      <div class="foot">
+        <van-button type="primary" block @click="handleClick"
+          >选座购票</van-button
+        >
+      </div>
+    </van-skeleton>
   </div>
 </template>
 <style lang="scss" scoped>

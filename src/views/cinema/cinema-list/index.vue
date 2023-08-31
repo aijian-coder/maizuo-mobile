@@ -7,7 +7,7 @@ import CinemaList from "@/components/cinema-list/index.vue";
 const cityStre = useCityStore();
 //拿到路由器
 const router = useRouter();
-
+const isSearch=true
 //顶部左侧点击
 function onClickLeft() {
   // console.log("跳转回city页");
@@ -15,21 +15,35 @@ function onClickLeft() {
     name: "city",
   });
 }
-function handelscroll(e:Event){
+//顶部右侧点击
+function handelsearch() {
+  router.push({
+    name: "search",
+  });
+}
+//滚动事件
+function handelscroll() {
   // ,(e.target as HTMLElement).scrollTop
   // console.log("gun",(e.target as HTMLElement).scrollTop);
 }
 </script>
 
 <template>
-  <div class="page-cinema-list">
-    <van-nav-bar title="影院" left-arrow right-arrow @click-left="onClickLeft">
+  <RouterView/>
+  <div class="page-cinema-list" v-visible="isSearch">
+    <van-nav-bar
+      title="影院"
+      left-arrow
+      right-arrow
+      @click-left="onClickLeft"
+      @click-right="handelsearch"
+    >
       <template #left>
         <span>{{ cityStre.curCity?.name }}&nbsp;</span>
         <van-icon name="arrow-down" :size="12" color="#000" />
       </template>
       <template #right>
-        <van-icon name="search" size="18" color="#000" />
+        <van-icon name="search" size="20" color="#000" />
       </template>
     </van-nav-bar>
     <van-dropdown-menu>
@@ -41,6 +55,7 @@ function handelscroll(e:Event){
       <CinemaList :type="1" />
     </div>
   </div>
+
 </template>
 
 <style lang="scss" scoped>

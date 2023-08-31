@@ -65,6 +65,13 @@ const router = createRouter({
       name: "films-detail",
       component: () => import("@/views/film/film-detail/index.vue"),
     },
+
+    {
+      //影院列表搜索
+      path: "/cinemas/search",
+      name: "search",
+      component: () => import("@/views/cinema/cinema-search/index.vue"),
+    },
   ],
 });
 

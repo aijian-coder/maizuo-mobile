@@ -9,9 +9,8 @@ import { ref, onMounted, computed } from "vue";
 import { useCityStore } from "@/stores/city";
 import { useRouter } from "vue-router";
 
-
 //拿到路由器
-const router =useRouter()
+const router = useRouter();
 
 const keyword = ref("");
 const CityStore = useCityStore();
@@ -49,8 +48,8 @@ function handeldown(city: API.ICity) {
   // console.log(city);
   CityStore.setCurrentcity(city);
   router.replace({
-    name:'films'
-  })
+    name: "films",
+  });
 }
 
 // 在输入框输入，触发此处
