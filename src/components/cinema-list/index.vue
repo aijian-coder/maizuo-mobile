@@ -1,16 +1,21 @@
-
 <script lang="ts" setup>
 import { reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCityStore } from "@/stores/city";
 import { getCinemaList } from "@/api/cinema";
 import CinemaItem from "@/components/cinema-item/index.vue";
+import { useCinemaStore } from "@/stores/cinema";
+import { onUpdated } from "vue";
+
+const cinemaStore = useCinemaStore();
 
 const cityStore = useCityStore();
 //创建路由器
 const router = useRouter();
 const props = defineProps<{
   type: 1 | 2;
+  searchList?: API.Cinema[];
+  isSearch?: boolean;
 }>();
 
 /**
@@ -20,7 +25,7 @@ ticketFlag: 1 | 2 app订票，前台兑换
  */
 // 请求接口的参数
 const params = reactive({
-  cityId: cityStore.curCityId,
+  cityId: cityStore.curCityId!,
   type: props.type,
 });
 
@@ -35,6 +40,7 @@ const state = reactive({
   // 当前请求是否出错了
   error: false,
 });
+// const searchList = [] as API.Cinema[];
 
 //列表滚动条的加载事件
 function onLoad() {
@@ -43,18 +49,30 @@ function onLoad() {
 //点击事件处理函数
 const handelclick = (cinema: API.Cinema) => {
   // TODO  路由跳转
-  // const params = { filmId: film.filmId };
+  const params = { cinemaId: cinema.cinemaId };
   // filmStore.getFilm()
   // filmStore.getFilm({ filmId: film.filmId });
 
   // router.push({ name: "films-detail", params });
 
   console.log("点击跳转影院详情", cinema);
+  cinemaStore.setCurCinema(cinema);
+  router.push({ name: "cinema-info", params });
 };
+onUpdated(() => {
+  // state.list = cinemaStore.searchCinemaList!;
+  // console.log("搜索");
+  if ((cinemaStore.searchCinemaList?.length as number) == 0) {
+    state.finished = true;
+  }
+});
+
 onMounted(() => {
   getCinemaList(params)
     .then((res) => {
       // console.log(res);
+
+      cinemaStore.cinemas = res.cinemas;
       state.list = res.cinemas;
     })
     .catch(() => {
@@ -69,7 +87,10 @@ onMounted(() => {
       state.loading = false;
       //    2. 计算 state.finished 是否为 true
       //    当获取到的数据的条数等于toal时，就停止
-      state.finished = true;
+      // state.finished = true;
+      if (!props.isSearch) {
+        state.finished = true;
+      }
     });
 });
 </script>
@@ -79,12 +100,16 @@ onMounted(() => {
       v-model:loading="state.loading"
       v-model:error="state.error"
       :finished="state.finished"
+      :disabled="props.isSearch"
       error-text="请求失败，点击重新加载"
       finished-text="没有更多了"
       :offset="10"
       @load="onLoad"
     >
-      <template v-for="item in state.list" :key="item.cinemaId">
+      <template
+        v-for="item in props.isSearch ? props.searchList : state.list"
+        :key="item.cinemaId"
+      >
         <CinemaItem :cinema="item" @myclick="handelclick(item)" />
       </template>
     </van-list>
