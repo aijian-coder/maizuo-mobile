@@ -1,4 +1,4 @@
-import { getCinemaList } from "@/api/cinema";
+import { getCinemaInfo, getCinemaList } from "@/api/cinema";
 import { defineStore } from "pinia";
 
 /**
@@ -8,7 +8,7 @@ import { defineStore } from "pinia";
 export const useCinemaStore = defineStore("cinema", {
   state: () => ({
     cinemas: null as API.Cinema[] | null,
-    curCinema: null as API.Cinema | null,
+    cinemaInfo: null as API.CinemaInfo | null,
     searchKey: "",
   }),
   getters: {
@@ -35,15 +35,25 @@ export const useCinemaStore = defineStore("cinema", {
         this.cinemas = resp.cinemas;
       });
     },
+
+    /**
+     * 获取影院信息
+     */
+    getCinemaInfo(params: { cinemaId: string }) {
+      getCinemaInfo(params).then((resp) => {
+        this.cinemaInfo = resp.cinema;
+      });
+    },
+
     /**
      * 设置当前影院
      */
-    setCurCinema(val: API.Cinema) {
-      this.curCinema = val;
+    setCurCinema(val: API.CinemaInfo) {
+      this.cinemaInfo = val;
     },
   },
 
-  persist: {
-    paths: ["cinemas", "curCinema"],
-  },
+  // persist: {
+  //   paths: ["cinemas", "cinemaInfo"],
+  // },
 });

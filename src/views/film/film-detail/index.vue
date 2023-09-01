@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useFilmStore } from "@/stores/film";
-import { computed, ref } from "vue";
-import { onUnmounted } from "vue";
+import { computed, onMounted, ref } from "vue";
+// import { onUnmounted } from "vue";
 
 const filmStore = useFilmStore();
 const actorsText = computed(() =>
@@ -24,27 +24,14 @@ function handelscroll(e: Event) {
   const scrollTop = (e.target as HTMLElement).scrollTop;
   showHeader.value = scrollTop >= 50;
 }
-// onBeforeRouteUpdate(()=>{
 
-//   filmStore.getFilm({ filmId:  (route.fullPath.split("/").slice(-1)[0] )});
-// })
-// router.beforeEach((to, from) => {
-//   // ...
-//   // 返回 false 以取消导航
-//   // console.log(to, from);
-
-//   // return false
-// })
-// onMounted(() => {
-//   console.log("onMounted", filmStore.film);
-
-//   filmStore.getFilm({ filmId: route.fullPath.split("/").slice(-1)[0] });
+// onUnmounted(() => {
+//   // console.log("onUnmounted", filmStore.film);
+//   filmStore.clearFilm();
 // });
-onUnmounted(() => {
-  // console.log("onUnmounted", filmStore.film);
-  filmStore.clearFilm();
+onMounted(() => {
+  filmStore.getFilm({ filmId: route.params.filmId + "" });
 });
-
 </script>
 <template>
   <div class="film-detail">

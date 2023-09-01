@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Carousel: typeof import('./src/components/cinema-info/carousel.vue')['default']
+    CinemaInfo: typeof import('./src/components/cinema-info/index.vue')['default']
     CinemaItem: typeof import('./src/components/cinema-item/index.vue')['default']
     CinemaList: typeof import('./src/components/cinema-list/index.vue')['default']
     copy: typeof import('./src/components/film-list copy/index.vue')['default']
@@ -18,8 +20,10 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    Info: typeof import('./src/components/cinema-info/info.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Schedule: typeof import('./src/components/cinema-info/schedule.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCell: typeof import('vant/es')['Cell']

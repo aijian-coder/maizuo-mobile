@@ -44,7 +44,7 @@ const params = reactive({
   type: props.type,
 });
 
-//设置一个state 用来整理也米娜需要的数据,使用reactive 搞一个响应式数据
+//设置一个state 用来整理需要的数据,使用reactive 搞一个响应式数据
 const state = reactive({
   //列表数据
   list: [] as API.IFilm[],

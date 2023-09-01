@@ -76,6 +76,7 @@ const router = createRouter({
     {
       // :xxx? => ?号表示该动态参数是可选的
       //http://localhost:xxxx/cinema/6269/film/6464  孤注一掷测试 深圳后瑞传奇影城
+      // path: "/cinema/:cinemaId/film/asd/asd",
       path: "/cinema/:cinemaId/film/:filmId?/:show?",
       name: "cinema-info",
       component: () => import("@/views/cinema/cinema-info/index.vue"),

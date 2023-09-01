@@ -23,7 +23,7 @@ export function getCurCinemaFilmList(params: { cinemaId: number }) {
  * 获取影院详情
  * mall.film-ticket.cinema.info
  */
-export function getCinemaInfo(params: { cinemaId: number }) {
+export function getCinemaInfo(params: { cinemaId: string }) {
   return httpGet<API.ICinemaInfoResp>("mall.film-ticket.cinema.info", params);
 }
 

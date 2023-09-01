@@ -13,7 +13,7 @@ export const useFilmStore = defineStore("film", {
     /**
      * 获取电影详情
      */
-    getFilm(params: any) {
+    getFilm(params: { filmId: string }) {
       getFilmDetail(params).then((resp) => {
         this.film = resp.film;
       });
@@ -25,7 +25,7 @@ export const useFilmStore = defineStore("film", {
       this.film = null;
     },
   },
-  persist: {
-    paths: ["film"],
-  },
+  // persist: {
+  //   paths: ["film"],
+  // },
 });
