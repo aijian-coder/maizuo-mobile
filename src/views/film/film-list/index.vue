@@ -35,14 +35,14 @@ function onClickLeft() {
       left-arrow
       @click-left="onClickLeft"
     >
-      <template #left >
+      <template #left>
         <span>{{ cityStre.curCity?.name }}&nbsp;</span>
-        <van-icon name="arrow-down" :size="12" color="#000"/>
+        <van-icon name="arrow-down" :size="12" color="#000" />
       </template>
     </van-nav-bar>
 
-    <van-tabs>
-      <van-tab title="正在热映">
+    <van-tabs title-active-color="#ff5f16">
+      <van-tab title="正在热映" >
         <FilmList :type="1" @myscroll="handleScroll"
       /></van-tab>
       <van-tab title="即将上映">

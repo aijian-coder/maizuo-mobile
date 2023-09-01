@@ -66,7 +66,7 @@ function handelscroll() {
   overflow: hidden;
   .body {
     flex: 1;
-    background: #b4b2b2;
+    background: #f4f4f4;
     overflow-y: auto;
   }
 }
