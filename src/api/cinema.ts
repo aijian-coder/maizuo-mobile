@@ -24,7 +24,7 @@ export function getCurCinemaFilmList(params: { cinemaId: number }) {
  * mall.film-ticket.cinema.info
  */
 export function getCinemaInfo(params: { cinemaId: number }) {
-  return httpGet<API.CinemaInfo>("mall.film-ticket.cinema.info", params);
+  return httpGet<API.ICinemaInfoResp>("mall.film-ticket.cinema.info", params);
 }
 
 /**

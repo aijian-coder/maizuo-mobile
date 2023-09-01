@@ -2,7 +2,7 @@
 import { reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCityStore } from "@/stores/city";
-import { getCinemaList } from "@/api/cinema";
+import { getCinemaInfo, getCinemaList } from "@/api/cinema";
 import CinemaItem from "@/components/cinema-item/index.vue";
 import { useCinemaStore } from "@/stores/cinema";
 import { onUpdated } from "vue";
@@ -47,7 +47,7 @@ function onLoad() {
   // console.log("滚动");
 }
 //点击事件处理函数
-const handelclick = (cinema: API.Cinema) => {
+const handelclick = async (cinema: API.Cinema) => {
   // TODO  路由跳转
   const params = { cinemaId: cinema.cinemaId };
   // filmStore.getFilm()
@@ -56,7 +56,11 @@ const handelclick = (cinema: API.Cinema) => {
   // router.push({ name: "films-detail", params });
 
   console.log("点击跳转影院详情", cinema);
-  cinemaStore.setCurCinema(cinema);
+  await getCinemaInfo(params).then((res) => {
+    console.log(res.cinema);
+    const cinemaIfo = res.cinema;
+    cinemaStore.setCurCinema(cinemaIfo);
+  });
   router.push({ name: "cinema-info", params });
 };
 onUpdated(() => {
