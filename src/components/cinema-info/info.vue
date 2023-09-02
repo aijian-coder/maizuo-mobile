@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{ info: API.CinemaInfo | null }>();
+defineProps<{ info: API.CinemaInfo }>();
 </script>
 <template>
   <h1>{{ info?.address }}</h1>
