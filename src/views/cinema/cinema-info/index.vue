@@ -7,7 +7,7 @@ import { onMounted, onUpdated, ref } from "vue";
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
-const isShow = ref(true);
+const isShow = ref(false);
 const params = { cinemaId: route.params.cinemaId + "" };
 function onClickLeft() {
   router.back();
@@ -28,14 +28,32 @@ onUpdated(() => {
       <van-nav-bar left-arrow @click-left="onClickLeft">
         <template #title>
           <span> {{ isShow ? cinemaStore.cinemaInfo?.name : " " }}</span>
-          <div> {{ isShow ? cinemaStore.cinemaInfo?.name : " " }}</div>
         </template>
       </van-nav-bar>
-      <div class="body">
-        <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo !" /></div>
-        <div class="cinema-carousel"><Carousel /></div>
-        <div class="cinema-schedule"><Schedule /></div>
-      </div>
+      <van-nav-bar :title="cinemaStore.cinemaInfo?.name" v-if="!isShow" />
+    </div>
+    <div class="body">
+      <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo !" /></div>
+      <div class="cinema-carousel"><Carousel /></div>
+      <div class="cinema-schedule"><Schedule /></div>
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.cinema-page-info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.van-nav-bar {
+  height: 44px;
+}
+.van-nav-bar::after {
+  display: none;
+}
+.body {
+  flex: 1;
+  height: 100%;
+  background: #d08383;
+}
+</style>
