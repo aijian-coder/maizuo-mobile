@@ -51,6 +51,10 @@ export const useCinemaStore = defineStore("cinema", {
     setCurCinema(val: API.CinemaInfo) {
       this.cinemaInfo = val;
     },
+
+    /**
+     * 
+     */
   },
 
   // persist: {

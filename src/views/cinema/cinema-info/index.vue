@@ -9,6 +9,9 @@ const router = useRouter();
 const route = useRoute();
 const isShow = ref(false);
 const params = { cinemaId: route.params.cinemaId + "" };
+const films = ref<API.IFilm[]>([]);
+const schedules = ref<API.ISchedule[]>([]);
+
 function onClickLeft() {
   router.back();
 }
@@ -34,7 +37,7 @@ onUpdated(() => {
     </div>
     <div class="body">
       <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo !" /></div>
-      <div class="cinema-carousel"><Carousel /></div>
+      <div class="cinema-carousel"><Carousel :films="films" /></div>
       <div class="cinema-schedule"><Schedule /></div>
     </div>
   </div>
@@ -54,6 +57,6 @@ onUpdated(() => {
 .body {
   flex: 1;
   height: 100%;
-  background: #d08383;
+  // background: #d08383;
 }
 </style>
