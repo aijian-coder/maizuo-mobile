@@ -7,9 +7,10 @@ import { onMounted, onUpdated, ref } from "vue";
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
+const { cinemaId, filmId, show } = route.params;
+
 const isShow = ref(false);
-const params = { cinemaId: route.params.cinemaId + "" };
-const films = ref<API.IFilm[]>([]);
+const params = { cinemaId: cinemaId + "" };
 const schedules = ref<API.ISchedule[]>([]);
 
 function onClickLeft() {
@@ -17,9 +18,28 @@ function onClickLeft() {
 }
 
 // let cinemaInfo = ref<API.CinemaInfo>();
+/**
+ * 初始化
+ *  1. 获取影院详情
+ *  2. 获取影院下电影列表
+ *  PS: 考虑多个接口请求时，串行与并行的选择。
+ */
+// async function init() {
+//   Promise.all([
+//     cinemaStore.getCinemaInfo(params),
+//     cinemaStore.getCinemaFlimsList(params),
+//   ]).then(([cinemaInfoResp, cinemaFilmsResp]) => {
+//     cinema.value = cinemaInfoResp.cinema;
+//     films.value = cinemaFilmsResp.films;
+//   });
+// }
+function init() {
+  cinemaStore.getCinemaInfo(params);
+  cinemaStore.getCinemaFlimsList(params);
+}
 
 onMounted(() => {
-  cinemaStore.getCinemaInfo(params);
+  init();
 });
 onUpdated(() => {
   // console.log(cinemaStore.cinemaInfo);
@@ -36,9 +56,13 @@ onUpdated(() => {
       <van-nav-bar :title="cinemaStore.cinemaInfo?.name" v-if="!isShow" />
     </div>
     <div class="body">
-      <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo !" /></div>
-      <div class="cinema-carousel"><Carousel :films="films" /></div>
-      <div class="cinema-schedule"><Schedule /></div>
+      <template v-if="cinemaStore.cinemaInfo && cinemaStore.cinemaFilms">
+        <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo" /></div>
+        <div class="cinema-carousel">
+          <Carousel :films="cinemaStore.cinemaFilms" />
+        </div>
+        <div class="cinema-schedule"><Schedule /></div>
+      </template>
     </div>
   </div>
 </template>

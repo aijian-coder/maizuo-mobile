@@ -1,19 +1,28 @@
 <script lang="ts" setup>
 import Swiper from "swiper";
 import "swiper/css/bundle";
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { onUpdated, onMounted, computed, ref } from "vue";
 
-defineProps<{ films: API.IFilm[] }>();
+const props = defineProps<{ films: API.IFilm[] }>();
 // swiper 容器
 const container = ref<HTMLElement | null>(null);
+const img = ref<HTMLElement | null>(null);
+
+//当前下标
+const curIndex = ref(0);
+const curFilm = computed(() => props.films[curIndex.value]);
+const curPoster = computed(() => {
+  return props.films[curIndex.value].poster;
+});
 
 //背景图片样式
-const styleValue = {
-  backgroundImage: `url(https://pic.maizuo.com/usr/movie/08d6cc18ee1bc9ffff4101fb0e6d7ad7.jpg)`,
-};
+const styleValue = computed(() => ({
+  backgroundImage: `url(${curPoster.value})`,
+}));
 
 onMounted(() => {
+  // console.log(props.films);
+
   // 不建议使用 css 选择器，原因是别的组件中也有使用 这个类名
   const mySwiper = new Swiper(container.value!, {
     slidesPerView: 4,
@@ -21,8 +30,13 @@ onMounted(() => {
     centeredSlides: true,
     slideToClickedSlide: true,
   });
+  mySwiper.on("slideChange", () => {
+    curIndex.value = mySwiper.activeIndex;
+    // console.log(curFilm.value);
+    
+  });
 });
-const b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+onUpdated(() => {});
 </script>
 <template>
   <div class="carousel-page">
@@ -30,11 +44,8 @@ const b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     <div class="swiperBg">
       <div class="swiper-container" ref="container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="a in b">
-            <img
-              src="https://pic.maizuo.com/usr/movie/08d6cc18ee1bc9ffff4101fb0e6d7ad7.jpg"
-              alt=""
-            />
+          <div class="swiper-slide" v-for="film in films" :key="film.filmId">
+            <img :src="film.poster" />
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export function getCinemaList(parms: { cityId: number; type: 1 | 2 }) {
  * 获取目标影院放映电影列表
  * mall.film-ticket.film.cinema-show-film
  */
-export function getCurCinemaFilmList(params: { cinemaId: number }) {
+export function getCurCinemaFilmList(params: { cinemaId: string }) {
   return httpGet<API.ICurCinemaFilmListResp>(
     "mall.film-ticket.film.cinema-show-film",
     params

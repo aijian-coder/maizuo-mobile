@@ -10,16 +10,16 @@ function handelClick() {
       class="tags"
       @click="handelClick"
       style="cursor: pointer"
-      v-show="info?.services"
+      v-show="info.services"
     >
-      <template v-for="service in info?.services">
+      <template v-for="service in info.services">
         <div class="tag" :data-title="service.name"></div>
         <!-- <van-tag type="primary" plain >标签</van-tag> -->
       </template>
       <van-icon name="arrow" />
     </div>
     <div class="address">
-      <p>{{ info?.address }}</p>
+      <p>{{ info.address }}</p>
       <span>
         <a href="tel:0755-23082193"> <van-icon name="phone-o" size="22px" /></a
       ></span>
