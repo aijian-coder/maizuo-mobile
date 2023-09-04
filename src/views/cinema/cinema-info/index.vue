@@ -3,7 +3,9 @@ import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
 import { onMounted, onUnmounted, ref } from "vue";
-import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
+//使用响应式 调取接口
+// import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
+import { toRefs } from "vue";
 
 const cinemaStore = useCinemaStore();
 const router = useRouter();
@@ -13,8 +15,12 @@ const { cinemaId } = route.params;
 const isShow = ref(false);
 const params = { cinemaId: cinemaId + "" };
 
-const cinemaInfo = ref<API.CinemaInfo | null>(null);
-const films = ref<API.IFilm[]>([]);
+// //设置响应式数据
+// const cinemaInfo = ref<API.CinemaInfo | null>(null);
+// const films = ref<API.IFilm[]>([]);
+
+//设置仓库数据
+const { cinemaFilms: films, cinemaInfo } = toRefs(cinemaStore);
 
 function onClickLeft() {
   router.back();
@@ -28,12 +34,15 @@ function onClickLeft() {
  *  PS: 考虑多个接口请求时，串行与并行的选择。
  */
 async function init() {
-  Promise.all([getCinemaInfo(params), getCurCinemaFilmList(params)]).then(
-    ([cinemaInfoResp, cinemaFilmsResp]) => {
-      cinemaInfo.value = cinemaInfoResp.cinema;
-      films.value = cinemaFilmsResp.films;
-    }
-  );
+  // //初始化响应式数据 要用async 因为接口返回一个promise
+  // Promise.all([getCinemaInfo(params), getCurCinemaFilmList(params)]).then(
+  //   ([cinemaInfoResp, cinemaFilmsResp]) => {
+  //     cinemaInfo.value = cinemaInfoResp.cinema;
+  //     films.value = cinemaFilmsResp.films;
+  //   }
+  // );
+
+  //初始化仓库数据
   cinemaStore.getCinemaFlimsList(params);
   cinemaStore.getCinemaInfo(params);
 }
@@ -52,17 +61,16 @@ onUnmounted(() => {
     <div class="header">
       <van-nav-bar left-arrow @click-left="onClickLeft">
         <template #title>
-          <span> {{ isShow ? cinemaStore.cinemaInfo?.name : " " }}</span>
+          <span> {{ isShow ? cinemaInfo?.name : " " }}</span>
         </template>
       </van-nav-bar>
-      <van-nav-bar :title="cinemaStore.cinemaInfo?.name" v-if="!isShow" />
+      <van-nav-bar :title="cinemaInfo?.name" v-if="!isShow" />
     </div>
     <div class="body">
-      <template v-if="cinemaInfo">
+      <template v-if="cinemaInfo && films">
         <div class="cinema-info"><Info :info="cinemaInfo" /></div>
         <div class="cinema-carousel">
           <Carousel :films="films" />
-          <!-- <Carousel :films="cinemaStore.cinemaFilms" /> -->
         </div>
         <div class="cinema-schedule"><Schedule /></div>
       </template>

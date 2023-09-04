@@ -3,7 +3,7 @@ import Swiper from "swiper";
 import "swiper/css/bundle";
 import { onUpdated, onMounted, computed, ref } from "vue";
 
-const props = defineProps<{ films: API.IFilm[] | null }>();
+const props = defineProps<{ films: API.IFilm[] }>();
 // swiper 容器
 const container = ref<HTMLElement | null>(null);
 const img = ref<HTMLElement | null>(null);
@@ -13,7 +13,7 @@ const curIndex = ref(0);
 // TODO
 // const curFilm = computed(() => props.films[curIndex.value]);
 const curPoster = computed(() => {
-  return props.films![curIndex.value].poster;
+  return props.films[curIndex.value].poster;
 });
 
 //背景图片样式
