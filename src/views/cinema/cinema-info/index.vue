@@ -2,7 +2,7 @@
 import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
-import { onMounted, onUpdated, ref } from "vue";
+import { onMounted, onUnmounted, onUpdated, ref } from "vue";
 
 const cinemaStore = useCinemaStore();
 const router = useRouter();
@@ -41,8 +41,9 @@ function init() {
 onMounted(() => {
   init();
 });
-onUpdated(() => {
-  // console.log(cinemaStore.cinemaInfo);
+onUnmounted(() => {
+  cinemaStore.clearInfo();
+  // cinemaStore.$reset()
 });
 </script>
 <template>

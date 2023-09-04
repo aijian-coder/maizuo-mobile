@@ -75,12 +75,21 @@ export const useCinemaStore = defineStore("cinema", {
     },
 
     /**
-     * 
+     *
      */
 
-    setCurCinema(val: API.CinemaInfo){
-      this.cinemaInfo=val
-    }
+    setCurCinema(val: API.CinemaInfo) {
+      this.cinemaInfo = val;
+    },
+
+    /**
+     * 清除仓库
+     */
+    clearInfo() {
+      this.cinemaFilms = null;
+      this.cinemaInfo = null;
+      this.cinemaSchedule = null;
+    },
   },
 
   // persist: {

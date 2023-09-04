@@ -33,7 +33,6 @@ onMounted(() => {
   mySwiper.on("slideChange", () => {
     curIndex.value = mySwiper.activeIndex;
     // console.log(curFilm.value);
-    
   });
 });
 onUpdated(() => {});
@@ -44,7 +43,11 @@ onUpdated(() => {});
     <div class="swiperBg">
       <div class="swiper-container" ref="container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="film in films" :key="film.filmId">
+          <div
+            class="swiper-slide"
+            v-for="film in films"
+            :key="film.filmId"
+          >
             <img :src="film.poster" />
           </div>
         </div>
