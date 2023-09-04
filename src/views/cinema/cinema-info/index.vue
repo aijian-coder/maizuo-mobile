@@ -12,7 +12,8 @@ const { cinemaId } = route.params;
 
 const isShow = ref(false);
 const params = { cinemaId: cinemaId + "" };
-const cinema = ref<API.CinemaInfo | null>(null);
+
+const cinemaInfo = ref<API.CinemaInfo | null>(null);
 const films = ref<API.IFilm[]>([]);
 
 function onClickLeft() {
@@ -29,7 +30,7 @@ function onClickLeft() {
 async function init() {
   Promise.all([getCinemaInfo(params), getCurCinemaFilmList(params)]).then(
     ([cinemaInfoResp, cinemaFilmsResp]) => {
-      cinema.value = cinemaInfoResp.cinema;
+      cinemaInfo.value = cinemaInfoResp.cinema;
       films.value = cinemaFilmsResp.films;
     }
   );
@@ -40,6 +41,7 @@ async function init() {
 onMounted(() => {
   init();
 });
+
 onUnmounted(() => {
   cinemaStore.clearInfo();
   // cinemaStore.$reset()
@@ -56,8 +58,8 @@ onUnmounted(() => {
       <van-nav-bar :title="cinemaStore.cinemaInfo?.name" v-if="!isShow" />
     </div>
     <div class="body">
-      <template v-if="cinema">
-        <div class="cinema-info"><Info :info="cinema" /></div>
+      <template v-if="cinemaInfo">
+        <div class="cinema-info"><Info :info="cinemaInfo" /></div>
         <div class="cinema-carousel">
           <Carousel :films="films" />
           <!-- <Carousel :films="cinemaStore.cinemaFilms" /> -->
