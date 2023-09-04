@@ -76,7 +76,7 @@ function handelClick() {
     height: 21px;
     background: url("../../assets/address.png");
     background-size: 100%;
-    margin: 0 10px;
+    margin: 0 10px 0 20px;
   }
   p {
     font-size: 14px;

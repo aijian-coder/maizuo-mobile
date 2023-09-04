@@ -49,7 +49,7 @@ function onLoad() {
 //点击事件处理函数
 const handelclick = async (cinema: API.Cinema) => {
   // TODO  路由跳转
-  const params = { cinemaId: "" + cinema.cinemaId };
+  const params = { cinemaId: "" + cinema.cinemaId, filmId: "", showdate: "" };
 
   // console.log("点击跳转影院详情", cinema);
   await getCinemaInfo(params).then((res) => {

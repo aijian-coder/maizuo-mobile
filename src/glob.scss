@@ -3,6 +3,8 @@
 // 覆盖 Vant 组件库的 css 变量，实现 主题更换
 :root:root {
   --van-primary-color: #ff5f16;
+  // filter: grayscale(100%);
+
 }
 
 html,

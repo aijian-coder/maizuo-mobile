@@ -55,6 +55,7 @@ const router = createRouter({
       ],
     },
     {
+      //城市页面
       path: "/city",
       name: "city",
       component: () => import("@/views/city/index.vue"),
@@ -74,10 +75,11 @@ const router = createRouter({
     },
 
     {
-      // :xxx? => ?号表示该动态参数是可选的
+      //影院详情页面
+      // :xxx? => ?号表示该动态参数是可选的:表示动态参数
       //http://localhost:xxxx/cinema/6269/film/6464  孤注一掷测试 深圳后瑞传奇影城
       // path: "/cinema/:cinemaId/film/asd/asd",
-      path: "/cinema/:cinemaId/film/:filmId?/:show?",
+      path: "/cinema/:cinemaId/film/:filmId?/:showdate?",
       name: "cinema-info",
       component: () => import("@/views/cinema/cinema-info/index.vue"),
     },

@@ -1,17 +1,22 @@
 <script lang="ts" setup>
+import router from "@/router";
 import Swiper from "swiper";
 import "swiper/css/bundle";
-import { onUpdated, onMounted, computed, ref } from "vue";
 
-const props = defineProps<{ films: API.IFilm[] }>();
+import { onMounted, computed, ref } from "vue";
+
+const props = defineProps<{ films: API.IFilm[]; filmId?: string }>();
 // swiper 容器
 const container = ref<HTMLElement | null>(null);
 const img = ref<HTMLElement | null>(null);
 
-//当前下标
+//当前激活的轮播图的下标
 const curIndex = ref(0);
-// TODO
+
+// 当前激活的电影
 const curFilm = computed(() => props.films[curIndex.value]);
+
+// 当前激活的电影海报
 const curPoster = computed(() => {
   return props.films[curIndex.value].poster;
 });
@@ -21,9 +26,18 @@ const styleValue = computed(() => ({
   backgroundImage: `url(${curPoster.value})`,
 }));
 
-onMounted(() => {
-  // console.log(props.films);
+//点击跳转
+//TODO  路由跳转
+// const params = { filmId: curFilm.value.filmId };
+// const params = computed(()=>({ filmId: curFilm.value.filmId + "" }))
+function handelJump(filmId: any) {
+  router.push({
+    name: "films-detail",
+    params: { filmId },
+  });
+}
 
+onMounted(() => {
   // 不建议使用 css 选择器，原因是别的组件中也有使用 这个类名
   const mySwiper = new Swiper(container.value!, {
     slidesPerView: 4,
@@ -31,12 +45,18 @@ onMounted(() => {
     centeredSlides: true,
     slideToClickedSlide: true,
   });
+  //判断传递的filmId是否有值
+  if (props.filmId) {
+    const index = props.films.findIndex(
+      (item) => item.filmId === +props.filmId!
+    );
+    // 使用 mySwiper 的 slideTo() 切换到 index 这个
+    mySwiper.slideTo(index);
+  }
   mySwiper.on("slideChange", () => {
     curIndex.value = mySwiper.activeIndex;
-    // console.log(curFilm.value);
   });
 });
-onUpdated(() => {});
 </script>
 <template>
   <div class="carousel-page">
@@ -51,12 +71,17 @@ onUpdated(() => {});
       </div>
     </div>
   </div>
-  <div class="film-info">
+  <div
+    class="film-info"
+    @click="handelJump(curFilm.filmId)"
+    :data-filmId="curFilm.filmId"
+  >
     <div class="film-head">
       <span>{{ curFilm.name }}&nbsp;</span>
-      <i style="color: #ff5f16;">{{ curFilm.grade }}</i>
-      <span style="color: #ff5f16;">分</span>
+      <i style="color: #ff5f16">{{ curFilm.grade }}</i>
+      <span style="color: #ff5f16; font-size: 12px">分</span>
     </div>
+    <van-icon name="arrow" size="10" />
     <div class="film-desc">
       {{ curFilm.category }} | {{ curFilm.runtime + "分钟" }} |
       {{ curFilm.director }} | {{ curFilm.synopsis }}
@@ -65,6 +90,7 @@ onUpdated(() => {});
 </template>
 <style lang="scss" scoped>
 .carousel-page {
+  // filter: grayscale(100%);
   height: 160px;
   position: relative;
   // background: #e3a7a7;
@@ -130,14 +156,37 @@ onUpdated(() => {});
   }
 }
 .film-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 80px;
   padding: 15px 0;
   box-sizing: border-box;
+  cursor: pointer;
+  .van-icon {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+  &::after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #b7b4b4;
+    transform: scaleY(0.5);
+  }
   .film-head {
     display: flex;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     color: #191a1b;
+    align-items: end;
+    padding-bottom: 10px;
   }
   .film-desc {
     white-space: nowrap;
@@ -145,7 +194,7 @@ onUpdated(() => {});
     text-overflow: ellipsis;
     padding: 0 54px;
     color: #797d82;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 </style>

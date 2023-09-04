@@ -10,10 +10,9 @@ import { toRefs } from "vue";
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
-const { cinemaId } = route.params;
-
+const { cinemaId, filmId, showdate } = route.params;
 const isShow = ref(false);
-const params = { cinemaId: cinemaId + "" };
+const params = { cinemaId: cinemaId + "", filmId: "6502", showdate: "" };
 
 // //设置响应式数据
 // const cinemaInfo = ref<API.CinemaInfo | null>(null);
@@ -70,7 +69,7 @@ onUnmounted(() => {
       <template v-if="cinemaInfo && films">
         <div class="cinema-info"><Info :info="cinemaInfo" /></div>
         <div class="cinema-carousel">
-          <Carousel :films="films" />
+          <Carousel :films="films" :filmId="(filmId as string)" />
         </div>
         <div class="cinema-schedule"><Schedule /></div>
       </template>
