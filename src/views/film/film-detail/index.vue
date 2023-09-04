@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useFilmStore } from "@/stores/film";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import router from "@/router";
 // import { onUnmounted } from "vue";
 
 const filmStore = useFilmStore();
@@ -25,18 +26,27 @@ function handelscroll(e: Event) {
   showHeader.value = scrollTop >= 50;
 }
 
-// onUnmounted(() => {
-//   // console.log("onUnmounted", filmStore.film);
-//   filmStore.clearFilm();
-// });
+onUnmounted(() => {
+  // console.log("onUnmounted", filmStore.film);
+  filmStore.clearFilm();
+});
 onMounted(() => {
   filmStore.getFilm({ filmId: route.params.filmId + "" });
 });
 </script>
 <template>
   <div class="film-detail">
-    <div class="header" v-show="showHeader">
-      <van-nav-bar :title="filmStore.film?.name" />
+    <div class="header" v-if="showHeader">
+      <van-nav-bar :title="filmStore.film?.name" >
+      <template #left>
+        <van-icon name="arrow-left" size="22" @click="router.back()" />
+
+      </template>
+      </van-nav-bar>
+
+    </div>
+    <div class="header" v-else="showHeader">
+      <van-icon name="arrow-left" size="22" @click="router.back()" />
     </div>
     <van-skeleton :loading="!filmStore.film">
       <div class="body" @scroll="handelscroll">
@@ -86,8 +96,27 @@ onMounted(() => {
   flex-direction: column;
   height: 100%;
 
-  .head {
+  .header {
+    width: 100%;
     height: 44px;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    .van-nav-bar {
+      width: 100%;
+    }
+    .van-icon {
+      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      color: #000;
+      background: #ffffff;
+      cursor: pointer;
+    }
   }
   .body {
     flex: 1;
@@ -106,8 +135,8 @@ onMounted(() => {
 // 海报
 .poster {
   width: 100%;
-  height: 300px;
-  background: rgb(169, 55, 55);
+  height: 500px;
+  // background: rgb(169, 55, 55);
   opacity: 1;
   overflow-y: hidden;
 }
@@ -119,7 +148,7 @@ onMounted(() => {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #fefcfc;
 
   .info_item {
     overflow: hidden;

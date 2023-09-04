@@ -11,7 +11,7 @@ const img = ref<HTMLElement | null>(null);
 //当前下标
 const curIndex = ref(0);
 // TODO
-// const curFilm = computed(() => props.films[curIndex.value]);
+const curFilm = computed(() => props.films[curIndex.value]);
 const curPoster = computed(() => {
   return props.films[curIndex.value].poster;
 });
@@ -44,15 +44,22 @@ onUpdated(() => {});
     <div class="swiperBg">
       <div class="swiper-container" ref="container">
         <div class="swiper-wrapper">
-          <div
-            class="swiper-slide"
-            v-for="film in films"
-            :key="film.filmId"
-          >
+          <div class="swiper-slide" v-for="film in films" :key="film.filmId">
             <img :src="film.poster" />
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="film-info">
+    <div class="film-head">
+      <span>{{ curFilm.name }}&nbsp;</span>
+      <i style="color: #ff5f16;">{{ curFilm.grade }}</i>
+      <span style="color: #ff5f16;">分</span>
+    </div>
+    <div class="film-desc">
+      {{ curFilm.category }} | {{ curFilm.runtime + "分钟" }} |
+      {{ curFilm.director }} | {{ curFilm.synopsis }}
     </div>
   </div>
 </template>
@@ -120,6 +127,25 @@ onUpdated(() => {});
   img {
     width: 90px;
     height: 100%;
+  }
+}
+.film-info {
+  height: 80px;
+  padding: 15px 0;
+  box-sizing: border-box;
+  .film-head {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    color: #191a1b;
+  }
+  .film-desc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 54px;
+    color: #797d82;
+    font-size: 12px;
   }
 }
 </style>
