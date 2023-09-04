@@ -2,16 +2,18 @@
 import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
-import { onMounted, onUnmounted, onUpdated, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
+import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
 
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
-const { cinemaId, filmId, show } = route.params;
+const { cinemaId } = route.params;
 
 const isShow = ref(false);
 const params = { cinemaId: cinemaId + "" };
-const schedules = ref<API.ISchedule[]>([]);
+const cinema = ref<API.CinemaInfo | null>(null);
+const films = ref<API.IFilm[]>([]);
 
 function onClickLeft() {
   router.back();
@@ -24,18 +26,15 @@ function onClickLeft() {
  *  2. 获取影院下电影列表
  *  PS: 考虑多个接口请求时，串行与并行的选择。
  */
-// async function init() {
-//   Promise.all([
-//     cinemaStore.getCinemaInfo(params),
-//     cinemaStore.getCinemaFlimsList(params),
-//   ]).then(([cinemaInfoResp, cinemaFilmsResp]) => {
-//     cinema.value = cinemaInfoResp.cinema;
-//     films.value = cinemaFilmsResp.films;
-//   });
-// }
-function init() {
-  cinemaStore.getCinemaInfo(params);
+async function init() {
+  Promise.all([getCinemaInfo(params), getCurCinemaFilmList(params)]).then(
+    ([cinemaInfoResp, cinemaFilmsResp]) => {
+      cinema.value = cinemaInfoResp.cinema;
+      films.value = cinemaFilmsResp.films;
+    }
+  );
   cinemaStore.getCinemaFlimsList(params);
+  cinemaStore.getCinemaInfo(params);
 }
 
 onMounted(() => {
@@ -57,10 +56,11 @@ onUnmounted(() => {
       <van-nav-bar :title="cinemaStore.cinemaInfo?.name" v-if="!isShow" />
     </div>
     <div class="body">
-      <template v-if="cinemaStore.cinemaInfo && cinemaStore.cinemaFilms">
-        <div class="cinema-info"><Info :info="cinemaStore.cinemaInfo" /></div>
+      <template v-if="cinema">
+        <div class="cinema-info"><Info :info="cinema" /></div>
         <div class="cinema-carousel">
-          <Carousel :films="cinemaStore.cinemaFilms" />
+          <Carousel :films="films" />
+          <!-- <Carousel :films="cinemaStore.cinemaFilms" /> -->
         </div>
         <div class="cinema-schedule"><Schedule /></div>
       </template>
