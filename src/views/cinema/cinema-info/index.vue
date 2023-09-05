@@ -12,7 +12,7 @@ const router = useRouter();
 const route = useRoute();
 const { cinemaId, filmId, showdate } = route.params;
 const isShow = ref(false);
-const params = { cinemaId: cinemaId + "", filmId: "6502", showdate: "" };
+const params = { cinemaId: cinemaId + "", filmId: "6502", showdate: "asdas" };
 
 // //设置响应式数据
 // const cinemaInfo = ref<API.CinemaInfo | null>(null);
@@ -43,7 +43,7 @@ async function init() {
 
   //初始化仓库数据
   cinemaStore.getCinemaFlimsList(params);
-  
+
   cinemaStore.getCinemaInfo(params);
 }
 

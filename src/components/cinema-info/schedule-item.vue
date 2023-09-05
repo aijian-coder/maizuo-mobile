@@ -104,4 +104,11 @@ const item = ref(null);
     }
   }
 }
+
+.schedule-item.disable {
+  filter: grayscale(100%);
+  > * > * {
+    color: rgb(19, 226, 74);
+  }
+}
 </style>
