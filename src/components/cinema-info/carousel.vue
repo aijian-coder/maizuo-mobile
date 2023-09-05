@@ -177,7 +177,7 @@ onMounted(() => {
     bottom: 0;
     right: 0;
     height: 1px;
-    border-bottom: 1px solid #b7b4b4;
+    border-bottom: 1px solid #ededed;
     transform: scaleY(0.5);
   }
   .film-head {

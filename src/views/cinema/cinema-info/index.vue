@@ -43,6 +43,7 @@ async function init() {
 
   //初始化仓库数据
   cinemaStore.getCinemaFlimsList(params);
+  
   cinemaStore.getCinemaInfo(params);
 }
 

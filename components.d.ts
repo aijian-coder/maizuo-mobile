@@ -24,6 +24,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Schedule: typeof import('./src/components/cinema-info/schedule.vue')['default']
+    ScheduleItem: typeof import('./src/components/cinema-info/schedule-item.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCell: typeof import('vant/es')['Cell']
