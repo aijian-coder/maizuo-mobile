@@ -5,7 +5,12 @@ import "swiper/css/bundle";
 
 import { onMounted, computed, ref } from "vue";
 
+//定义prop
 const props = defineProps<{ films: API.IFilm[]; filmId?: string }>();
+
+//定义emits
+const emits=defineEmits<{}>()
+
 // swiper 容器
 const container = ref<HTMLElement | null>(null);
 const img = ref<HTMLElement | null>(null);

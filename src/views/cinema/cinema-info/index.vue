@@ -17,6 +17,7 @@ const params = { cinemaId: cinemaId + "", filmId: "6502", showdate: "asdas" };
 // //设置响应式数据
 // const cinemaInfo = ref<API.CinemaInfo | null>(null);
 // const films = ref<API.IFilm[]>([]);
+// const schedules = ref<API.ISchedule[]>([]);
 
 //设置仓库数据
 const { cinemaFilms: films, cinemaInfo } = toRefs(cinemaStore);
@@ -43,9 +44,12 @@ async function init() {
 
   //初始化仓库数据
   cinemaStore.getCinemaFlimsList(params);
-
   cinemaStore.getCinemaInfo(params);
 }
+
+// 设置掉排期的接口
+function 
+
 
 onMounted(() => {
   init();
