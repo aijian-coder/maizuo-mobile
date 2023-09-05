@@ -1,30 +1,29 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 const emits = defineEmits(["clickTab"]);
+//向父组件传递自身的DOM
 function handelclick() {
   emits("clickTab", item);
 }
 const item = ref(null);
 </script>
 <template>
-  <template v-for="index in 10" :key="index">
-    <div class="schedule-item" @click="handelclick" ref="item">
-      <div class="left">
-        <div class="start-at">17:47</div>
-        <div class="end-at">20:08散场</div>
-      </div>
-      <div class="middle">
-        <div class="language">国语2D</div>
-        <div class="hall">skVIP厅</div>
-      </div>
-      <div class="right">
-        <div class="lowest-price">
-          <span>￥0</span>
-        </div>
-        <div class="buy-ticket">购票</div>
-      </div>
+  <div class="schedule-item" @click="handelclick" ref="item">
+    <div class="left">
+      <div class="start-at">17:47</div>
+      <div class="end-at">20:08散场</div>
     </div>
-  </template>
+    <div class="middle">
+      <div class="language">国语2D</div>
+      <div class="hall">skVIP厅</div>
+    </div>
+    <div class="right">
+      <div class="lowest-price">
+        <span>￥0</span>
+      </div>
+      <div class="buy-ticket">购票</div>
+    </div>
+  </div>
 </template>
 <style scoped lang="scss">
 .schedule-item {
