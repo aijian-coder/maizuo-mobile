@@ -6,10 +6,14 @@ import "swiper/css/bundle";
 import { onMounted, computed, ref } from "vue";
 
 //定义prop
-const props = defineProps<{ films: API.IFilm[]; filmId?: string }>();
+const props = defineProps<{ films: API.Film[]; filmId?: string }>();
 
 //定义emits
-const emits=defineEmits<{}>()
+const emits = defineEmits<{
+  //可能是数组，因为电影会有多个天数的排期
+  changeFilmId: [payload: string];
+  changeDate: [payload: string];
+}>();
 
 // swiper 容器
 const container = ref<HTMLElement | null>(null);
@@ -55,11 +59,20 @@ onMounted(() => {
     const index = props.films.findIndex(
       (item) => item.filmId === +props.filmId!
     );
-    // 使用 mySwiper 的 slideTo() 切换到 index 这个
+    // 使用 mySwiper 的 slideTo() 切换到 index 下标的电影信息
     mySwiper.slideTo(index);
   }
+
+  //触发自定义事件，把当前的电影filmId和时间撮showDate传递出去
+  // 默认通知一次父组件，filmId 是什么, showDate 是什么
+  emits("changeFilmId", props.films[mySwiper.activeIndex].filmId + "");
+  emits("changeDate", props.films[mySwiper.activeIndex].showDate + "");
+
   mySwiper.on("slideChange", () => {
     curIndex.value = mySwiper.activeIndex;
+    // 切换后通知父组件切换了并传递，filmId 是什么, showDate 是什么
+    emits("changeFilmId", props.films[mySwiper.activeIndex].filmId + "");
+    emits("changeDate", props.films[mySwiper.activeIndex].showDate + "");
   });
 });
 </script>

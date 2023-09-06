@@ -95,7 +95,7 @@ declare namespace API {
 
   // 当前影院上线电影列表接口返回值类型
   export interface ICurCinemaFilmListResp {
-    films: IFilm[];
+    films: Film[];
   }
 
   //影院服务支持
@@ -138,7 +138,44 @@ declare namespace API {
 
   //影院当前电影放映列表返回值
   export interface ICinemaFilmsResp {
-    films: API.IFilm[];
+    films: API.Film[];
+  }
+  export interface Actor {
+    name: string;
+    role: string;
+    avatarAddress: string;
+  }
+
+  export interface FilmType {
+    name: string;
+    value: number;
+  }
+
+  export interface Item {
+    name: string;
+    type: number;
+  }
+
+  export interface Film {
+    filmId: number;
+    name: string;
+    poster: string;
+    actors: Actor[];
+    director: string;
+    category: string;
+    showDate: number[];
+    synopsis: string;
+    filmType: FilmType;
+    nation: string;
+    language: string;
+    videoId: string;
+    premiereAt: number;
+    timeType: number;
+    runtime: number;
+    grade: string;
+    item: Item;
+    isPresale: boolean;
+    isSale: boolean;
   }
 
   //电影排期列表对象类型

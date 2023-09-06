@@ -15,7 +15,7 @@ export const useCinemaStore = defineStore("cinema", {
     searchKey: "",
     cinemas: null as API.Cinema[] | null,
     cinemaInfo: null as API.CinemaInfo | null,
-    cinemaFilms: null as API.IFilm[] | null,
+    cinemaFilms: null as API.Film[] | null,
     cinemaSchedule: null as API.ISchedule[] | null,
   }),
   getters: {

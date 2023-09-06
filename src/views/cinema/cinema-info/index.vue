@@ -2,17 +2,18 @@
 import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watchEffect, toRefs } from "vue";
 //使用响应式 调取接口
 // import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
-import { toRefs } from "vue";
 
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
-const { cinemaId, filmId, showdate } = route.params;
+let { cinemaId, filmId, showdate } = route.params;
 const isShow = ref(false);
-const params = { cinemaId: cinemaId + "", filmId: "6502", showdate: "asdas" };
+
+//调接口的参数
+// const params = { cinemaId: cinemaId + "", filmId, showdate };
 
 // //设置响应式数据
 // const cinemaInfo = ref<API.CinemaInfo | null>(null);
@@ -43,13 +44,31 @@ async function init() {
   // );
 
   //初始化仓库数据
-  cinemaStore.getCinemaFlimsList(params);
-  cinemaStore.getCinemaInfo(params);
+  cinemaStore.getCinemaFlimsList({ cinemaId: cinemaId + "" });
+  cinemaStore.getCinemaInfo({ cinemaId: cinemaId + "" });
 }
 
 // 设置掉排期的接口
-function 
+// function
 
+//子组件传递来的自定义事件处理函数
+function handleChangeDate(aaa: any) {
+  // console.log(aaa);
+  showdate = aaa;
+  console.log(showdate);
+}
+function handleChangeFilmId(aaa: any) {
+  filmId = aaa;
+  console.log(filmId);
+}
+
+watchEffect(() => {
+  // 默认触发一次，这时 filmId 与 date 还没有值。
+  // if (!filmId || !showdate) {
+  //   return;
+  // }
+  console.log(cinemaId, filmId, showdate);
+});
 
 onMounted(() => {
   init();
@@ -74,7 +93,12 @@ onUnmounted(() => {
       <template v-if="cinemaInfo && films">
         <div class="cinema-info"><Info :info="cinemaInfo" /></div>
         <div class="cinema-carousel">
-          <Carousel :films="films" :filmId="(filmId as string)" />
+          <Carousel
+            :films="films"
+            :filmId="(filmId as string)"
+            @change-date="handleChangeDate"
+            @change-film-id="handleChangeFilmId"
+          />
         </div>
         <div class="cinema-schedule"><Schedule /></div>
       </template>
