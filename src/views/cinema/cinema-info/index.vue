@@ -3,13 +3,14 @@ import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
 import { onMounted, onUnmounted, ref, watchEffect, toRefs } from "vue";
+import { getSchedules } from "@/api/cinema";
 //使用响应式 调取接口
 // import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
 
 const cinemaStore = useCinemaStore();
 const router = useRouter();
 const route = useRoute();
-let { cinemaId, filmId, showdate } = route.params;
+let { cinemaId } = route.params;
 const isShow = ref(false);
 
 //调接口的参数
@@ -22,6 +23,11 @@ const isShow = ref(false);
 
 //设置仓库数据
 const { cinemaFilms: films, cinemaInfo } = toRefs(cinemaStore);
+
+// 定义当前的 filmId， 初始值由 URL 地址动态参数提供
+const filmId = ref<string>(route.params.filmId as string);
+// 定义当前的 date, 初始化由 URL 地址动态参数提供
+const showdate = ref<string>(route.params.showdate as string);
 
 function onClickLeft() {
   router.back();
@@ -54,20 +60,26 @@ async function init() {
 //子组件传递来的自定义事件处理函数
 function handleChangeDate(aaa: any) {
   // console.log(aaa);
-  showdate = aaa;
-  console.log(showdate);
+  showdate.value = aaa;
+  // console.log(showdate);
 }
 function handleChangeFilmId(aaa: any) {
-  filmId = aaa;
-  console.log(filmId);
+  filmId.value = aaa;
+  // console.log(filmId);
 }
 
-watchEffect(() => {
+watchEffect(async () => {
   // 默认触发一次，这时 filmId 与 date 还没有值。
-  // if (!filmId || !showdate) {
-  //   return;
-  // }
-  console.log(cinemaId, filmId, showdate);
+  if (!filmId.value || !showdate.value) {
+    return false;
+  }
+  console.log(cinemaId, filmId.value, showdate.value[0]);
+  // const Schedules = await getSchedules({
+  //   cinemaId: cinemaId + "",
+  //   filmId: filmId.value,
+  //   date: showdate.value[0],
+  // });
+  // console.log(Schedules);
 });
 
 onMounted(() => {

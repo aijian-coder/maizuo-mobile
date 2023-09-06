@@ -12,7 +12,7 @@ const props = defineProps<{ films: API.Film[]; filmId?: string }>();
 const emits = defineEmits<{
   //可能是数组，因为电影会有多个天数的排期
   changeFilmId: [payload: string];
-  changeDate: [payload: string];
+  changeDate: [payload: number[]];
 }>();
 
 // swiper 容器
@@ -66,17 +66,18 @@ onMounted(() => {
   //触发自定义事件，把当前的电影filmId和时间撮showDate传递出去
   // 默认通知一次父组件，filmId 是什么, showDate 是什么
   emits("changeFilmId", props.films[mySwiper.activeIndex].filmId + "");
-  emits("changeDate", props.films[mySwiper.activeIndex].showDate + "");
+  emits("changeDate", props.films[mySwiper.activeIndex].showDate);
 
   mySwiper.on("slideChange", () => {
     curIndex.value = mySwiper.activeIndex;
     // 切换后通知父组件切换了并传递，filmId 是什么, showDate 是什么
     emits("changeFilmId", props.films[mySwiper.activeIndex].filmId + "");
-    emits("changeDate", props.films[mySwiper.activeIndex].showDate + "");
+    emits("changeDate", props.films[mySwiper.activeIndex].showDate);
   });
 });
 </script>
 <template>
+  <!-- 轮播图 -->
   <div class="carousel-page">
     <div class="carousel-bg" :style="styleValue"></div>
     <div class="swiperBg">
@@ -89,6 +90,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <!-- 描述 -->
   <div
     class="film-info"
     @click="handelJump(curFilm.filmId)"

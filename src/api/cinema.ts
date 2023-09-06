@@ -35,12 +35,12 @@ export function getCinemaInfo(params: { cinemaId: string }) {
  * mall.film-ticket.schedule.list
  */
 export function getSchedules(params: {
-  cinemaId: number;
-  filmId: number;
-  date: number;
+  cinemaId: string;
+  filmId: string;
+  date: string;
 }) {
   return httpGet<API.ICinemaSchedulesResp>(
-    "mall.film-ticket.cinema.info",
+    "mall.film-ticket.schedule.list",
     params
   );
 }
