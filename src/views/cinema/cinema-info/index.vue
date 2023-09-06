@@ -3,7 +3,7 @@ import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
 import { onMounted, onUnmounted, ref, watchEffect, toRefs } from "vue";
-import { getSchedules } from "@/api/cinema";
+// import { getSchedules } from "@/api/cinema";
 //使用响应式 调取接口
 // import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
 
