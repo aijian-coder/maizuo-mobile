@@ -95,7 +95,7 @@ const handelclick = (film: API.IFilm) => {
   //TODO  路由跳转
   const params = { filmId: film.filmId };
   // filmStore.getFilm()
-  filmStore.getFilm({ filmId: film.filmId });
+  filmStore.getFilm({ filmId: film.filmId+"" });
 
   router.push({ name: "films-detail", params });
 };

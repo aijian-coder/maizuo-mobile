@@ -37,13 +37,11 @@ onMounted(() => {
 <template>
   <div class="film-detail">
     <div class="header" v-if="showHeader">
-      <van-nav-bar :title="filmStore.film?.name" >
-      <template #left>
-        <van-icon name="arrow-left" size="22" @click="router.back()" />
-
-      </template>
+      <van-nav-bar :title="filmStore.film?.name">
+        <template #left>
+          <van-icon name="arrow-left" size="22" @click="router.back()" />
+        </template>
       </van-nav-bar>
-
     </div>
     <div class="header" v-else="showHeader">
       <van-icon name="arrow-left" size="22" @click="router.back()" />

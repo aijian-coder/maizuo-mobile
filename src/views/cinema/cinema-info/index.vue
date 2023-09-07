@@ -2,8 +2,15 @@
 import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
-import { onMounted, onUnmounted, ref, watchEffect, toRefs } from "vue";
-// import { getSchedules } from "@/api/cinema";
+import {
+  onMounted,
+  onUnmounted,
+  ref,
+  watchEffect,
+  toRefs,
+  computed,
+} from "vue";
+import { getSchedules } from "@/api/cinema";
 //使用响应式 调取接口
 // import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
 
@@ -27,7 +34,9 @@ const { cinemaFilms: films, cinemaInfo } = toRefs(cinemaStore);
 // 定义当前的 filmId， 初始值由 URL 地址动态参数提供
 const filmId = ref<string>(route.params.filmId as string);
 // 定义当前的 date, 初始化由 URL 地址动态参数提供
-const showdate = ref<string>(route.params.showdate as string);
+const date = ref<string>(route.params.showdate as string);
+//定义时间排期的接口返回值
+const schedulesList = ref<API.ISchedule[]>([]);
 
 function onClickLeft() {
   router.back();
@@ -57,31 +66,31 @@ async function init() {
 // 设置掉排期的接口
 // function
 
+// showDate ，当前电影的showDate
+
 //子组件传递来的自定义事件处理函数
 function handleChangeDate(aaa: any) {
   // console.log(aaa);
-  showdate.value = aaa;
-  // console.log(showdate);
+  date.value = aaa;
+  // console.log(date.value);
 }
 function handleChangeFilmId(aaa: any) {
   filmId.value = aaa;
   // console.log(filmId);
 }
-
 watchEffect(async () => {
   // 默认触发一次，这时 filmId 与 date 还没有值。
-  if (!filmId.value || !showdate.value) {
+  if (!filmId.value || !date.value) {
     return false;
   }
-  console.log(cinemaId, filmId.value, showdate.value[0]);
-  // const Schedules = await getSchedules({
-  //   cinemaId: cinemaId + "",
-  //   filmId: filmId.value,
-  //   date: showdate.value[0],
-  // });
-  // console.log(Schedules);
+  console.log(cinemaId, filmId.value, date.value[0]);
+  const res = await getSchedules({
+    cinemaId: cinemaId + "",
+    filmId: filmId.value,
+    date: date.value[0],
+  });
+  schedulesList.value = res.schedules;
 });
-
 onMounted(() => {
   init();
 });
@@ -112,7 +121,12 @@ onUnmounted(() => {
             @change-film-id="handleChangeFilmId"
           />
         </div>
-        <div class="cinema-schedule"><Schedule /></div>
+        <div class="cinema-schedule">
+          <Schedule
+            :schedules="schedulesList"
+            v-if="schedulesList.length"
+          />
+        </div>
       </template>
     </div>
   </div>

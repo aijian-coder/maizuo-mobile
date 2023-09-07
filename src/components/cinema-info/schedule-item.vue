@@ -1,25 +1,45 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import dayjs from "dayjs";
+defineProps<{ scheduleItem: API.ISchedule }>();
 const emits = defineEmits(["clickTab"]);
 //向父组件传递自身的DOM
 function handelclick() {
   emits("clickTab", item);
+}
+/* {
+    "advanceStopMins": 15,
+    "endAt": 1694087124,
+    "filmLanguage": "英语",
+    "hallName": "sk6号厅",
+    "imagery": "2D",
+    "isOnsell": true,
+    "marketPrice": 11800,
+    "salePrice": 10300,
+    "scheduleId": 7456894,
+    "showAt": 1694078193
+} */
+
+function formatShowAt(time: number) {
+  return dayjs(time * 1000).format("HH:mm");
 }
 const item = ref(null);
 </script>
 <template>
   <div class="schedule-item" @click="handelclick" ref="item">
     <div class="left">
-      <div class="start-at">17:47</div>
-      <div class="end-at">20:08散场</div>
+      <div class="start-at">{{ formatShowAt(scheduleItem.showAt) }}</div>
+      <div class="end-at">{{ formatShowAt(scheduleItem.endAt) + "散场" }}</div>
     </div>
     <div class="middle">
-      <div class="language">国语2D</div>
-      <div class="hall">skVIP厅</div>
+      <div class="language">
+        {{ scheduleItem.filmLanguage }}{{ scheduleItem.imagery }}
+      </div>
+      <div class="hall">{{ scheduleItem.hallName }}</div>
     </div>
     <div class="right">
       <div class="lowest-price">
-        <span>￥0</span>
+        <span>￥{{ scheduleItem.salePrice / 100 }}</span>
       </div>
       <div class="buy-ticket">购票</div>
     </div>
