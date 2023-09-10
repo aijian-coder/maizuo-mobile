@@ -1,12 +1,27 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import dayjs from "dayjs";
-defineProps<{ scheduleItem: API.ISchedule }>();
+const props = defineProps<{ scheduleItem: API.ISchedule }>();
 const emits = defineEmits(["clickTab"]);
+const isdisable = ref(false);
+const item = ref(null);
 //向父组件传递自身的DOM
 function handelclick() {
   emits("clickTab", item);
 }
+//当前日期
+const nowdate = computed(() => {
+  const now = new Date();
+  return dayjs(now.getTime()).format("HH:mm");
+});
+
+watchEffect(() => {
+  isdisable.value = +nowdate.value >= +formatShowAt(props.scheduleItem.showAt);
+  if (isdisable.value) {
+    console.log(item.value);
+  }
+});
+
 /* {
     "advanceStopMins": 15,
     "endAt": 1694087124,
@@ -23,7 +38,7 @@ function handelclick() {
 function formatShowAt(time: number) {
   return dayjs(time * 1000).format("HH:mm");
 }
-const item = ref(null);
+//禁用状态
 </script>
 <template>
   <div class="schedule-item" @click="handelclick" ref="item">
