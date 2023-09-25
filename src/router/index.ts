@@ -17,7 +17,7 @@ const router = createRouter({
           name: "films",
           component: () => import("@/views/film/film-list/index.vue"),
           //设置路由前置守卫  ,值是一个函数
-          beforeEnter: (to, from) => {
+          beforeEnter: () => {
             //判断是否选择城市，到仓库中判断
             const { curCity } = useCityStore();
             if (!curCity) {

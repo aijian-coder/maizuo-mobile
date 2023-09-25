@@ -15,7 +15,8 @@ import { showToast } from "vant";
 
 //实例化axios
 const request = axios.create({
-  baseURL: "/api",
+  // baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_BASEURL,
   timeout: 3000,
 });
 

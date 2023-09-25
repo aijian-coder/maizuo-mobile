@@ -20,6 +20,7 @@ function initMap() {
   if (!container.value) return;
 
   //定义map变量，调用 TMap.Map() 构造函数创建地图
+  // @ts-ignore
   const map = new TMap.Map(container.value, {
     center: [31.23958, 121.499763], // 地图中心点坐标
     zoom: 16.7, //设置地图缩放级别

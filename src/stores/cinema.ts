@@ -65,9 +65,9 @@ export const useCinemaStore = defineStore("cinema", {
      * 获取影院电影排期
      */
     getCinemaScheduleList(params: {
-      cinemaId: number;
-      filmId: number;
-      date: number;
+      cinemaId: string;
+      filmId: string;
+      date: string;
     }) {
       getSchedules(params).then((resp) => {
         this.cinemaSchedule = resp.schedules;

@@ -2,14 +2,7 @@
 import { useCinemaStore } from "@/stores/cinema";
 import { useRouter, useRoute } from "vue-router";
 import { Carousel, Info, Schedule } from "@/components/cinema-info/index";
-import {
-  onMounted,
-  onUnmounted,
-  ref,
-  watchEffect,
-  toRefs,
-  computed,
-} from "vue";
+import { onMounted, onUnmounted, ref, watchEffect, toRefs } from "vue";
 import { getSchedules } from "@/api/cinema";
 //使用响应式 调取接口
 // import { getCinemaInfo, getCurCinemaFilmList } from "@/api/cinema";
@@ -85,7 +78,7 @@ watchEffect(async () => {
   }
   console.log(cinemaId, filmId.value, date.value[0]);
   const res = await getSchedules({
-    cinemaId: cinemaId + "",
+    cinemaId: cinemaId as string,
     filmId: filmId.value,
     date: date.value[0],
   });
@@ -122,10 +115,7 @@ onUnmounted(() => {
           />
         </div>
         <div class="cinema-schedule">
-          <Schedule
-            :schedules="schedulesList"
-            v-if="schedulesList.length"
-          />
+          <Schedule :schedules="schedulesList" v-if="schedulesList.length" />
         </div>
       </template>
     </div>
